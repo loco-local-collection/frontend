@@ -12,6 +12,8 @@ const createJestConfig = nextJest({
 });
 
 const config: Config = {
+  testMatch: ["**/?(*.)+(*.)test.[jt]s?(x)"],
+
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
