@@ -1,5 +1,7 @@
 🚀 프로젝트 시작하기
 
+기술스택: Nextjs, Typescript, Tailwindcss, Zustand, Vitest, husky, shadcn-ui, MSW
+
 📦 필수 설치
 
 먼저, 프로젝트의 필수 패키지를 설치합니다:
