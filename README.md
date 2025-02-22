@@ -1,6 +1,8 @@
+라이브러리 추가할 때 MIT인지 확인 필요
+
 🚀 프로젝트 시작하기
 
-기술스택: Nextjs, Typescript, Tailwindcss, Zustand, Vitest, husky, shadcn-ui, MSW
+기술스택: Nextjs, Typescript, Tailwindcss, Zustand, Jest, husky, shadcn-ui, MSW
 
 📦 필수 설치
 
