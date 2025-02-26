@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Card } from "../molecules/card";
-import { Input } from "../molecules/input";
-import Button from "../molecules/button";
+import { Card } from "../molecules/Card";
+import { Input } from "../molecules/Input";
+import { Button } from "../molecules/Button";
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("");

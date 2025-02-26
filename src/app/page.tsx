@@ -1,9 +1,9 @@
-import { LoginPage } from "@/components/organisms/LoginPage";
+import PlaceSearchMap from "@/components/organisms/PlaceSearchMap";
 
 export default function Page() {
   return (
     <div>
-      <LoginPage />
+      <PlaceSearchMap />
     </div>
   );
 }

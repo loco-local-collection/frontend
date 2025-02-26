@@ -1,6 +1,6 @@
 import { InputHTMLAttributes, forwardRef } from "react";
 import { cn } from "@/lib/utils";
-import { disabledStyles, focusRing } from "@/styles/styles";
+import { disabledStyles } from "@/styles/styles";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -8,7 +8,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error = "true", className, disabled, ...props }, ref) => {
+  ({ label, error = "false", className, disabled, ...props }, ref) => {
     return (
       <div className="flex flex-col gap-1">
         {label && (
@@ -26,10 +26,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           className={cn(
             "w-full px-4 py-2 border rounded-md text-primary bg-primary",
-            `${focusRing}`,
+            `focus-visible:ring-4 
+            focus-visible:ring-[#2563eb] 
+              focus-visible:ring-offset-2 
+            focus-visible:ring-offset-white 
+              focus-visible:outline-none`,
             disabled && `${disabledStyles}`,
-            error &&
-              "border-danger-bold text-danger focus:ring-danger-bold focus:border-danger-bold",
+            error && "text-danger",
             className,
           )}
           disabled={disabled}

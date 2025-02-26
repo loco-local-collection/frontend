@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { disabledStyles, focusRing } from "@/styles/styles";
+import { disabledStyles } from "@/styles/styles";
 
 type ButtonVariant = "primary" | "secondary" | "destructive";
 type ButtonStyleType = "filled" | "outlined" | "transparent";
@@ -19,7 +19,11 @@ const buttonStyles = {
       text-interactive-inverse
       hover:bg-interactive-primary-hovered 
       active:bg-interactive-primary-pressed
-      ${focusRing}
+      focus-visible:ring-4 
+      focus-visible:ring-[#2563eb] 
+      focus-visible:ring-offset-2 
+      focus-visible:ring-offset-white 
+      focus-visible:outline-none
     `,
     outlined: `
       border 
@@ -29,9 +33,13 @@ const buttonStyles = {
       hover:bg-interactive-secondary-hovered
       hover:text-interactive-primary-hovered
       active:border-interactive-primary-pressed
-      hover:bg-interactive-secondary-hovered
+      active:bg-interactive-secondary-pressed
       active:text-interactive-primary-pressed
-      ${focusRing}
+      focus-visible:ring-4 
+      focus-visible:ring-[#2563eb] 
+      focus-visible:ring-offset-2 
+      focus-visible:ring-offset-white 
+      focus-visible:outline-none
     `,
     transparent: `      
       text-interactive-primary
@@ -39,7 +47,11 @@ const buttonStyles = {
       hover:bg-interactive-secondary-hovered 
       active:text-interactive-primary-pressed
       active:bg-interactive-secondary-pressed
-      ${focusRing}
+      focus-visible:ring-4 
+      focus-visible:ring-[#2563eb] 
+      focus-visible:ring-offset-2 
+      focus-visible:ring-offset-white 
+      focus-visible:outline-none
     `,
   },
   secondary: {
@@ -50,7 +62,11 @@ const buttonStyles = {
       active:text-interactive-secondary-pressed 
       hover:bg-interactive-secondary-hovered 
       active:bg-interactive-secondary-pressed
-      ${focusRing}
+      focus-visible:ring-4 
+      focus-visible:ring-[#2563eb] 
+      focus-visible:ring-offset-2 
+      focus-visible:ring-offset-white 
+      focus-visible:outline-none
       `,
     outlined: `
       border 
@@ -60,7 +76,11 @@ const buttonStyles = {
       hover:bg-interactive-secondary-hovered
       active:border-interactive-secondary-pressed
       active:bg-interactive-secondary-pressed
-      ${focusRing}
+      focus-visible:ring-4 
+      focus-visible:ring-[#2563eb] 
+      focus-visible:ring-offset-2 
+      focus-visible:ring-offset-white 
+      focus-visible:outline-none
     `,
     transparent: `      
       text-interactive-secondary 
@@ -68,7 +88,11 @@ const buttonStyles = {
       active:text-interactive-secondary-pressed 
       hover:bg-interactive-secondary-hovered 
       active:bg-interactive-secondary-pressed
-      ${focusRing}
+      focus-visible:ring-4 
+      focus-visible:ring-[#2563eb] 
+      focus-visible:ring-offset-2 
+      focus-visible:ring-offset-white 
+      focus-visible:outline-none
       `,
   },
   destructive: {
@@ -77,14 +101,18 @@ const buttonStyles = {
       text-interactive-inverse 
       hover:bg-interactive-danger-hovered 
       active:bg-interactive-danger-pressed
-      ${focusRing}
+      focus-visible:ring-4 
+      focus-visible:ring-[#2563eb] 
+      focus-visible:ring-offset-2 
+      focus-visible:ring-offset-white 
+      focus-visible:outline-none
       `,
     outlined: "",
     transparent: "",
   },
 };
 
-const Button = ({
+export const Button = ({
   variant = "primary",
   styleType = "filled",
   leftIcon,
@@ -111,5 +139,3 @@ const Button = ({
     </button>
   );
 };
-
-export default Button;
