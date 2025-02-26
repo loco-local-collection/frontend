@@ -1,10 +1,9 @@
-import Link from "next/link";
+import { LoginPage } from "@/components/organisms/LoginPage";
 
 export default function Page() {
   return (
     <div>
-      <h1>Home</h1>
-      <Link href="/about">About</Link>
+      <LoginPage />
     </div>
   );
 }
