@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "./Button";
-import { Input } from "./Input";
+import { Button } from "../atoms/Button";
+import { Input } from "../atoms/Input";
+// import { searchPlaces } from "@/libs/search"; // ✅ API 호출 분리
 
 interface SearchBoxProps {
   onSelectPlace: (lat: number, lng: number, title: string) => void;
@@ -16,14 +17,20 @@ export default function SearchBox({ onSelectPlace }: SearchBoxProps) {
   const [error, setError] = useState("");
 
   const handleSearch = async () => {
-    if (!query.trim()) {
+    const trimmedQuery = query.trim();
+    if (!trimmedQuery) {
       setError("검색어를 입력해주세요.");
       return;
     }
 
-    setError(""); // 에러 초기화
-    // TODO: API 호출 로직 추가
-    console.log(`Searching for: ${query}`);
+    setError("");
+
+    try {
+      // const data = await searchPlaces(trimmedQuery); // ✅ API 호출 분리
+      // setResults(data);
+    } catch (error) {
+      setError("검색에 실패했습니다.");
+    }
   };
 
   return (
@@ -33,7 +40,10 @@ export default function SearchBox({ onSelectPlace }: SearchBoxProps) {
           id="search"
           placeholder="장소 검색..."
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            if (error) setError(""); // ✅ 입력 시 에러 초기화
+          }}
           error={error}
         />
         <Button
@@ -47,10 +57,14 @@ export default function SearchBox({ onSelectPlace }: SearchBoxProps) {
       </div>
 
       {results.length > 0 && (
-        <ul className="mt-4 border rounded-md bg-primary shadow-md">
+        <ul
+          role="listbox"
+          className="mt-4 border rounded-md bg-primary shadow-md"
+        >
           {results.map((place, index) => (
             <li
               key={index}
+              role="option"
               onClick={() => onSelectPlace(place.lat, place.lng, place.title)}
               className="p-2 hover:bg-interactive-secondary cursor-pointer"
             >

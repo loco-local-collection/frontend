@@ -4,6 +4,14 @@
 
 @import url("https://cdn.jsdelivr.net/npm/pretendard@latest/dist/web/variable/pretendardvariable.css");
 
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 :root {
   /* base */
   --color-base-black: #000000;

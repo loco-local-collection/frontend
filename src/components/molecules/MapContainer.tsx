@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Marker from "./Marker";
+import Marker from "../atoms/Marker";
 
 interface MapContainerProps {
   center: { lat: number; lng: number };
@@ -33,7 +33,7 @@ export default function MapContainer({
   return (
     <div
       ref={mapRef}
-      className={`w-full h-[400px] rounded-lg shadow-md ${className}`}
+      className={`w-full rounded-lg shadow-md ${className} h-screen`}
     >
       {map &&
         markers.map((marker, index) => (

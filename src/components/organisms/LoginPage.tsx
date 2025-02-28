@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { Card } from "../molecules/Card";
-import { Input } from "../molecules/Input";
-import { Button } from "../molecules/Button";
+import { Input } from "../atoms/Input";
+import { Button } from "../atoms/Button";
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
