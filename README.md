@@ -1,73 +1,36 @@
-라이브러리 추가할 때 MIT인지 확인 필요
+# LOCO Frontend
 
-🚀 프로젝트 시작하기
+지도 기반 장소 공유 서비스 **LOCO** 의 프런트엔드 레포지터리 입니다.
 
-기술스택: Nextjs, Typescript, Tailwindcss, Zustand, Jest, husky, shadcn-ui, MSW
+</br>
 
-📦 필수 설치
+## 설치
 
-먼저, 프로젝트의 필수 패키지를 설치합니다:
+1. 레포지터리 클론, 패키지 설치
 
-npm install
+   ```bash
+   git clone https://github.com/loco-local-collection/frontend.git
+   cd frontend
+   npm install
+   ```
 
-💻 개발 서버 실행
+2. `.env.local` 파일 생성
 
-개발 서버를 시작하려면 다음 명령어를 입력하세요:
+   ```bash
+   cp .env.example .env.local
+   ```
 
-npm run dev
+</br>
 
-브라우저에서 http://localhost:3000을 열어 결과를 확인할 수 있습니다.
+## 구조
 
-💡 팁: app/page.tsx 파일을 수정하면 페이지가 자동으로 업데이트됩니다.
-
-🛠️ 주요 설정 파일
-
-파일명
-
-설명
-
-.eslintrc.json
-
-코드 품질과 일관성을 유지하기 위한 ESLint 설정 파일.
-
-jest.config.ts
-
-Jest 테스트 프레임워크의 설정 파일.
-
-next.config.mjs
-
-Next.js의 커스텀 설정 파일.
-
-postcss.config.mjs
-
-PostCSS 설정 파일. CSS 변환 플러그인 포함.
-
-tailwind.config.ts
-
-Tailwind CSS 디자인 시스템 설정 파일.
-
-tsconfig.json
-
-TypeScript 컴파일러 옵션 및 경로 별칭 정의.
-
-🪝 Husky를 통한 Git Hooks 관리
-
-프로젝트에는 Husky가 포함되어 있어, Git Hooks를 쉽게 관리할 수 있습니다.
-
-.husky 디렉터리 내 스크립트를 통해 커밋 및 푸시 시 자동으로 검사 및 테스트가 실행됩니다.
-
-🧪 테스트 안내
-
-tests/mock-api/ 디렉터리에는 **모의 API(Mock API)**가 포함되어 있습니다.
-
-Jest를 사용해 테스트를 실행할 수 있습니다.
-
-모든 테스트 설정은 jest.config.ts 파일에서 확인할 수 있습니다.
-
-npm run test
-
-📚 추가 정보
-
-Next.js에 대한 자세한 내용은 Next.js 공식 문서를 참고하세요.
-
-이 프로젝트는 최신 웹 개발 기술과 도구를 활용하여 효율적이고 쾌적한 개발 환경을 제공합니다. 🚀✨
+```
+src
+├── components/          # UI 컴포넌트
+├── libs/                # 유틸리티 및 API
+├── hooks/               # 커스텀 훅
+├── store/               # Zustand 상태 관리
+├── effect/              # API 호출 및 부수 효과
+├── styles/              # 스타일 관리
+└── tests/               # 테스트 코드
+```

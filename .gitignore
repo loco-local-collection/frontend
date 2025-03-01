@@ -40,3 +40,7 @@ next-env.d.ts
 playground
 __tests__
 .husky
+
+# ide
+.vscode
+.idea
