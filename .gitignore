@@ -39,4 +39,3 @@ next-env.d.ts
 # test folder
 playground
 __tests__
-.husky
