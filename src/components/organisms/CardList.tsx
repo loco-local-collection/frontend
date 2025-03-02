@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function CardList() {
   const cards = [
     {
@@ -89,8 +91,10 @@ export default function CardList() {
           >
             {/* 카드 이미지 */}
             <div className="relative">
-              <img
+              <Image
                 src={card.image}
+                width={600}
+                height={600}
                 alt={card.title}
                 className="w-full h-40 object-cover"
               />

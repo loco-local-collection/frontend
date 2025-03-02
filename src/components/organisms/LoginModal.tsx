@@ -6,7 +6,12 @@ import { FaGoogle } from "react-icons/fa";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { SiNaver } from "react-icons/si";
 
-export default function LoginModal({ isOpen, onClose }) {
+interface LoginModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={""}>
       <Card className="w-96 p-6 space-y-4">
