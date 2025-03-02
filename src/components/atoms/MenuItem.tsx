@@ -2,12 +2,12 @@ import type { ComponentPropsWithRef, ForwardedRef, KeyboardEvent } from "react";
 import { forwardRef, useCallback } from "react";
 import { cn } from "@/lib/utils";
 
-interface DropdownItemProps extends ComponentPropsWithRef<"li"> {
+interface MenuItemProps extends ComponentPropsWithRef<"li"> {
   onClick: () => void;
 }
 
-const DropdownItem = (
-  { children, onClick, className, ...attributes }: DropdownItemProps,
+const MenuItem = (
+  { children, onClick, className, ...attributes }: MenuItemProps,
   ref: ForwardedRef<HTMLLIElement>,
 ) => {
   const handleEnterKeyPress = useCallback(
@@ -37,4 +37,6 @@ const DropdownItem = (
   );
 };
 
-export default forwardRef(DropdownItem);
+MenuItem.displayName = "MenuItem";
+
+export default forwardRef(MenuItem);

@@ -3,20 +3,20 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
 
-export interface DropdownProps extends ComponentPropsWithoutRef<"div"> {
+export interface MenuProps extends ComponentPropsWithoutRef<"div"> {
   isOpen: boolean;
   onClose: () => void;
   renderId?: string;
 }
 
-const Dropdown = ({
+const Menu = ({
   isOpen,
   onClose,
   renderId,
   children,
   className,
   ...props
-}: DropdownProps) => {
+}: MenuProps) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const [renderElement, setRenderElement] = useState<HTMLElement | null>(null);
 
@@ -73,4 +73,6 @@ const Dropdown = ({
   );
 };
 
-export default Dropdown;
+Menu.displayName = "Menu";
+
+export default Menu;
