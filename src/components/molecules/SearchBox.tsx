@@ -11,6 +11,7 @@ interface SearchBoxProps {
 
 export default function SearchBox({ onSelectPlace }: SearchBoxProps) {
   const [query, setQuery] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [results, setResults] = useState<
     { title: string; lat: number; lng: number }[]
   >([]);
@@ -30,6 +31,7 @@ export default function SearchBox({ onSelectPlace }: SearchBoxProps) {
       // setResults(data);
     } catch (error) {
       setError("검색에 실패했습니다.");
+      console.log(error);
     }
   };
 
@@ -64,7 +66,6 @@ export default function SearchBox({ onSelectPlace }: SearchBoxProps) {
           {results.map((place, index) => (
             <li
               key={index}
-              role="option"
               onClick={() => onSelectPlace(place.lat, place.lng, place.title)}
               className="p-2 hover:bg-interactive-secondary cursor-pointer"
             >

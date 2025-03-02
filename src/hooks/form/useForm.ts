@@ -1,15 +1,24 @@
 import { useState } from "react";
 
-export const useForm = <T extends Record<string, any>>(initialValues: T) => {
-  const [values, setValues] = useState(initialValues);
+export const useForm = <T extends Record<string, string | number | boolean>>(
+  initialValues: T
+) => {
+  const [values, setValues] = useState<T>(initialValues);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type } = e.target;
+
+    // ✅ 체크박스일 경우 checked 값 사용
+    const newValue =
+      type === "checkbox" && e.target instanceof HTMLInputElement
+        ? e.target.checked
+        : value;
+
     setValues((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: newValue,
     }));
   };
 
