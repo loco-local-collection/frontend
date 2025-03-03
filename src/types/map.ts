@@ -4,4 +4,7 @@ export interface Spot {
   description?: string;
   lat: number;
   lng: number;
+  likes: number;
+  createdAt: string;
+  imageUrl?: string;
 }

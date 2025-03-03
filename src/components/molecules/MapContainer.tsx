@@ -1,12 +1,13 @@
 "use client";
 
+import type { Spot } from "@/types/map";
 import { useEffect, useRef, useState } from "react";
 import Marker from "@/components/atoms/Marker";
 
 interface MapContainerProps {
+  spots: Spot[];
   center: { lat: number; lng: number };
   zoom?: number;
-  markers?: { lat: number; lng: number; title?: string; iconUrl?: string }[];
   className?: string;
 }
 
@@ -16,7 +17,7 @@ interface MapContainerProps {
 export default function MapContainer({
   center,
   zoom = 14,
-  markers = [],
+  spots = [],
   className,
 }: MapContainerProps) {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -52,13 +53,12 @@ export default function MapContainer({
       className={`w-full rounded-lg shadow-md ${className} h-screen`}
     >
       {map &&
-        markers.map((marker, index) => (
+        spots.map((spot, index) => (
           <Marker
             key={index}
             map={map}
-            position={{ lat: marker.lat, lng: marker.lng }}
-            title={marker.title}
-            iconUrl={marker.iconUrl}
+            position={{ lat: spot.lat, lng: spot.lng }}
+            title={spot.title}
           />
         ))}
     </div>
