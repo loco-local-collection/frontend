@@ -20,25 +20,13 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
         <Input type="password" placeholder="비밀번호 입력" />
         <Button className="w-full">로그인</Button> */}
         <div className="flex flex-col w-full gap-4">
-          <Button
-            leftIcon={<FaGoogle />}
-            variant="secondary"
-            styleType="outlined"
-          >
+          <Button leftIcon={<FaGoogle />} variant="outline">
             Google 로그인
           </Button>
-          <Button
-            leftIcon={<RiKakaoTalkFill />}
-            variant="secondary"
-            styleType="outlined"
-          >
+          <Button leftIcon={<RiKakaoTalkFill />} variant="outline">
             Naver 로그인
           </Button>
-          <Button
-            leftIcon={<SiNaver />}
-            variant="secondary"
-            styleType="outlined"
-          >
+          <Button leftIcon={<SiNaver />} variant="outline">
             Kakao 로그인
           </Button>
         </div>

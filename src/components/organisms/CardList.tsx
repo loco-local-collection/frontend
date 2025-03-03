@@ -29,12 +29,12 @@ export default function CardList() {
     },
     {
       id: 4,
+      dDay: "D-15",
       label: "NEW",
       image: "/default-marker.svg",
       title: "연기스터디/대학로팅 동아리 모집",
       author: "rikasohhd012",
       tags: ["#클럽포토", "#카페"],
-      hasApply: true,
     },
     {
       id: 5,
@@ -63,12 +63,12 @@ export default function CardList() {
     },
     {
       id: 8,
+      dDay: "D-15",
       label: "NEW",
       image: "/default-marker.svg",
       title: "연기스터디/대학로팅 동아리 모집",
       author: "rikasohhd012",
       tags: ["#클럽포토", "#카페"],
-      hasApply: true,
     },
   ];
 
@@ -124,11 +124,10 @@ export default function CardList() {
               </div>
 
               {/* 지원하기 버튼 */}
-              {card.hasApply && (
-                <button className="w-full mt-3 py-1 border rounded text-center text-sm bg-black text-white">
-                  지원하기
-                </button>
-              )}
+
+              <button className="w-full mt-3 py-1 border rounded text-center text-sm bg-black text-white">
+                참여하기
+              </button>
             </div>
           </div>
         ))}
