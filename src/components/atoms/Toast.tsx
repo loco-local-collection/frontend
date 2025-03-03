@@ -26,7 +26,7 @@ export const Toast = ({
       <div
         className={cn(
           "fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg flex items-center",
-          toastStyles[type],
+          toastStyles[type]
         )}
         role="alert"
       >
@@ -34,7 +34,7 @@ export const Toast = ({
         {/* 메시지 영역에 남은 공간을 차지하도록 설정 */}
         <Button
           className="ml-4 p-1 text-sm text-gray-400 hover:text-white"
-          variant="destructive"
+          variant="danger"
           onClick={onClose}
         >
           <X size={16} /> {/* X 아이콘 추가 */}

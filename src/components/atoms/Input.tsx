@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 import clsx from "clsx";
-import { InputProps } from "@/types/input.types";
+import { InputProps } from "@/types/Input.types";
 
 const getInputClassName = ({
   leftIcon,

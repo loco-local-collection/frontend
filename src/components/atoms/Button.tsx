@@ -1,5 +1,5 @@
 // 📌 Button.tsx
-import { ButtonProps } from "@/types/button.types";
+import { ButtonProps } from "@/types/Button.types";
 import clsx from "clsx";
 
 const getButtonClassName = (

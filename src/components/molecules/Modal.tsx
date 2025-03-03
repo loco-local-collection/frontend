@@ -57,7 +57,6 @@ export default function Modal({
           </h2>
           <Button
             variant="secondary"
-            styleType="transparent"
             onClick={onClose}
             className="p-2"
             aria-label="닫기"
@@ -75,13 +74,12 @@ export default function Modal({
         {/* Footer (Confirm & Cancel Buttons) */}
         {variant !== "default" && (
           <div className="flex justify-end gap-2 mt-6">
-            <Button variant="secondary" styleType="outlined" onClick={onClose}>
+            <Button variant="secondary" onClick={onClose}>
               {cancelText}
             </Button>
             {onConfirm && (
               <Button
-                variant={variant === "confirm" ? "destructive" : "primary"}
-                styleType="filled"
+                variant={variant === "confirm" ? "danger" : "primary"}
                 onClick={onConfirm}
               >
                 {confirmText}
