@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Button } from "../atoms/Button";
 
 const categories = [
   "서포터즈/기자단",
@@ -12,11 +13,12 @@ export default function CategoryFilter() {
   const [selected, setSelected] = useState("전체");
 
   return (
-    <div className="bg-gray-100 p-3 rounded-lg">
+    <div className="bg-tertiary p-3 rounded-lg">
       {/* 반응형 컨테이너 */}
       <div className="flex md:flex-wrap space-x-3 md:space-x-2 overflow-x-auto md:overflow-visible whitespace-nowrap snap-x snap-mandatory scrollbar-hide">
         {/* 전체 버튼 */}
-        <button
+        <Button
+          variant="outline"
           onClick={() => setSelected("전체")}
           className={`px-4 py-2 border rounded-md text-sm snap-start ${
             selected === "전체"
@@ -25,11 +27,12 @@ export default function CategoryFilter() {
           }`}
         >
           ✅ 전체
-        </button>
+        </Button>
 
         {/* 카테고리 버튼 */}
         {categories.map((category) => (
-          <button
+          <Button
+            variant="outline"
             key={category}
             onClick={() => setSelected(category)}
             className={`px-4 py-2 border rounded-md text-sm snap-start ${
@@ -39,7 +42,7 @@ export default function CategoryFilter() {
             }`}
           >
             {category}
-          </button>
+          </Button>
         ))}
       </div>
     </div>
