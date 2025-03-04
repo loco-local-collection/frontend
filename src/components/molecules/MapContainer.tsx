@@ -3,25 +3,24 @@
 import type { Spot } from "@/types/map";
 import { useEffect, useRef, useState } from "react";
 import Marker from "@/components/atoms/Marker";
+import { useMapStore } from "@/store/mapStore";
 
 interface MapContainerProps {
   spots: Spot[];
-  center: { lat: number; lng: number };
   zoom?: number;
-  className?: string;
 }
 
 /**
  * 지도 인스턴스를 생성하고 렌더링하는 컴포넌트
  */
 export default function MapContainer({
-  center,
   zoom = 14,
   spots = [],
-  className,
 }: MapContainerProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<naver.maps.Map | null>(null);
+
+  const center = useMapStore((state) => state.center);
 
   // 마운트 시 지도 인스턴스 생성
   useEffect(() => {
@@ -48,19 +47,9 @@ export default function MapContainer({
   }, [center, map]);
 
   return (
-    <div
-      ref={mapRef}
-      className={`w-full rounded-lg shadow-md ${className} h-screen`}
-    >
+    <div ref={mapRef} className={`grow rounded-lg shadow-md h-screen`}>
       {map &&
-        spots.map((spot, index) => (
-          <Marker
-            key={index}
-            map={map}
-            position={{ lat: spot.lat, lng: spot.lng }}
-            title={spot.title}
-          />
-        ))}
+        spots.map((spot) => <Marker key={spot.id} spot={spot} map={map} />)}
     </div>
   );
 }

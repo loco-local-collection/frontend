@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { useMapTagSelection } from "@/hooks/maps/useMapTagSelection";
 import { useMapSortOption } from "@/hooks/maps/useMapSortOption";
+import { useMapStore } from "@/store/mapStore";
 
 import SpotCard from "@/components/molecules/SpotCard";
 import { Button } from "@/components/atoms/Button";
@@ -17,7 +18,6 @@ import { cn } from "@/lib/utils";
 
 interface SidebarProps {
   spots: Spot[];
-  onSpotSelect: (spot: Spot) => void;
   children?: ReactNode;
 }
 
@@ -25,14 +25,13 @@ interface SidebarProps {
  * 장소 리스트를 보여주는 사이드바 컴포넌트
  * 태그, 정렬을 통한 데이터 변경
  */
-export default function MapSidebar({
-  spots,
-  onSpotSelect,
-  ...props
-}: SidebarProps) {
+export default function MapSidebar({ spots, ...props }: SidebarProps) {
   const [isOpen, setIsOpen] = useState(true);
   const { selectedTags, availableTags, toggleTag } = useMapTagSelection();
   const { selectedSort, setSelectedSort, sortOptions } = useMapSortOption();
+
+  const setCenter = useMapStore((state) => state.setCenter);
+  const setActiveSpotId = useMapStore((state) => state.setActiveSpotId);
 
   const sortedSpots = useMemo(() => {
     return [...spots].sort((a, b) => {
@@ -73,7 +72,7 @@ export default function MapSidebar({
                       label={tag.label}
                       className={cn(
                         selectedTags.includes(tag.id) &&
-                          "bg-[--color-bg-interactive-primary] text-[--color-text-interactive-inverse]",
+                          "bg-interactive-primary text-interactive-inverse",
                       )}
                     />
                   </div>
@@ -84,7 +83,6 @@ export default function MapSidebar({
               value={selectedSort}
               onChange={setSelectedSort}
               options={sortOptions}
-              containerClassName=""
             />
           </div>
 
@@ -94,7 +92,10 @@ export default function MapSidebar({
               <SpotCard
                 key={index}
                 spot={spot}
-                onClick={() => onSpotSelect(spot)}
+                onClick={() => {
+                  setCenter({ lat: spot.lat, lng: spot.lng });
+                  setActiveSpotId(spot.id);
+                }}
               />
             ))}
           </div>
