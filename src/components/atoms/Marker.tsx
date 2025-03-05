@@ -2,6 +2,7 @@ import type { Spot } from "@/types/map";
 import { useEffect, useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import { useMapStore } from "@/store/mapStore";
+import { MarkerWindow } from "@/components/atoms/MarkerWindow";
 
 interface MarkerProps {
   spot: Spot;
@@ -35,14 +36,14 @@ export default function Marker({ spot, map, iconUrl }: MarkerProps) {
     setMarker(newMarker);
 
     const infoWindowContent = ReactDOMServer.renderToString(
-      <div className="p-2 text-sm font-bold bg-white rounded-md shadow-md">
-        {spot.title || "마커 정보"}
-      </div>,
+      <MarkerWindow spot={spot} />,
     );
     const newInfoWindow = new naver.maps.InfoWindow({
       content: infoWindowContent,
-      borderWidth: 1,
-      disableAutoPan: false,
+      borderWidth: 0,
+      disableAnchor: true,
+      backgroundColor: "transparent",
+      pixelOffset: new naver.maps.Point(0, -10),
     });
     setInfoWindow(newInfoWindow);
 
