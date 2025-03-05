@@ -1,22 +1,29 @@
 "use client";
 
+import type { Spot } from "@/types/map";
 import { useState } from "react";
+import MapSidebar from "@/components/molecules/MapSidebar";
+import MapSidebarHeader from "@/components/molecules/MapSidebarHeader";
+import MapContainer from "@/components/molecules/MapContainer";
 
-import MapContainer from "../molecules/MapContainer";
+interface PlaceSearchMapProps {
+  initialData: Spot[];
+}
 
-export default function PlaceSearchMap() {
-  // 나중에 Hook으로 빼야함
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [center, setCenter] = useState({ lat: 37.5665, lng: 126.978 });
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [markers, setMarkers] = useState<
-    { lat: number; lng: number; title: string }[]
-  >([]);
+/**
+ * 지도와 사이드바를 렌더링하는 컴포넌트
+ * 초기 데이터 받아서 spots 상태 관리
+ */
+export default function PlaceSearchMap({ initialData }: PlaceSearchMapProps) {
+  const [spots] = useState<Spot[]>(initialData);
 
   return (
-    <div className="relative w-full">
-      {/* 지도 컨테이너 */}
-      <MapContainer center={center} markers={markers} />
+    <div className="relative flex w-full h-screen">
+      <MapSidebar spots={spots}>
+        <MapSidebarHeader /> {/* 서버 컴포넌트 */}
+      </MapSidebar>
+
+      <MapContainer spots={spots} />
     </div>
   );
 }

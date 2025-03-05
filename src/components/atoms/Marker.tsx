@@ -1,30 +1,30 @@
-"use client";
-
+import type { Spot } from "@/types/map";
 import { useEffect, useState } from "react";
 import ReactDOMServer from "react-dom/server";
+import { useMapStore } from "@/store/mapStore";
+import { MarkerWindow } from "@/components/atoms/MarkerWindow";
 
 interface MarkerProps {
+  spot: Spot;
   map: naver.maps.Map | null;
-  position: { lat: number; lng: number };
-  title?: string;
   iconUrl?: string;
 }
 
-export default function Marker({ map, position, title, iconUrl }: MarkerProps) {
+export default function Marker({ spot, map, iconUrl }: MarkerProps) {
   const [marker, setMarker] = useState<naver.maps.Marker | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [infoWindow, setInfoWindow] = useState<naver.maps.InfoWindow | null>(
-    null
+    null,
   );
+  const { activeSpotId, setActiveSpotId } = useMapStore();
 
-  // ✅ 1. 마커 초기 생성 (map 또는 position 변경 시만 실행)
+  // 1. 마커 및 인포 윈도우 생성 (map, spot, iconUrl 변경 시 재생성)
   useEffect(() => {
     if (!map) return;
 
     const newMarker = new naver.maps.Marker({
-      position: new naver.maps.LatLng(position.lat, position.lng),
+      position: new naver.maps.LatLng(spot.lat, spot.lng),
       map,
-      title,
+      title: spot.title,
       icon: {
         url: iconUrl || "/default-marker.svg",
         size: new naver.maps.Size(16, 16),
@@ -33,45 +33,57 @@ export default function Marker({ map, position, title, iconUrl }: MarkerProps) {
         anchor: new naver.maps.Point(8, 16),
       },
     });
-
     setMarker(newMarker);
 
-    // ✅ 2. 인포 윈도우 생성
     const infoWindowContent = ReactDOMServer.renderToString(
-      <div className="p-2 text-sm font-bold bg-white rounded-md shadow-md">
-        {title || "마커 정보"}
-      </div>
+      <MarkerWindow spot={spot} />,
     );
-
     const newInfoWindow = new naver.maps.InfoWindow({
       content: infoWindowContent,
-      borderWidth: 1,
-      disableAutoPan: false,
+      borderWidth: 0,
+      disableAnchor: true,
+      backgroundColor: "transparent",
+      pixelOffset: new naver.maps.Point(0, -10),
     });
-
     setInfoWindow(newInfoWindow);
 
-    // ✅ 3. 클릭 시 인포 윈도우 토글
-    naver.maps.Event.addListener(newMarker, "click", () => {
-      if (newInfoWindow.getMap()) {
-        newInfoWindow.close();
-      } else {
-        newInfoWindow.open(map, newMarker);
-      }
-    });
+    // 마커 클릭 시 activeSpotId 토글
+    const clickListener = naver.maps.Event.addListener(
+      newMarker,
+      "click",
+      () => {
+        const currentActiveId = useMapStore.getState().activeSpotId;
+        setActiveSpotId(currentActiveId === spot.id ? null : spot.id);
+      },
+    );
 
     return () => {
+      naver.maps.Event.removeListener(clickListener);
       newMarker.setMap(null);
       newInfoWindow.close();
     };
-  }, [map, position]);
+  }, [map, spot, iconUrl, setActiveSpotId]);
 
-  // ✅ 4. 마커 속성 업데이트 (title 또는 iconUrl 변경 시만 실행)
+  // 2. activeSpotId 변경에 따라 인포 윈도우 열고 닫기
+  useEffect(() => {
+    if (!map || !marker || !infoWindow) return;
+
+    if (activeSpotId === spot.id) {
+      if (!infoWindow.getMap()) {
+        infoWindow.open(map, marker);
+      }
+    } else {
+      if (infoWindow.getMap()) {
+        infoWindow.close();
+      }
+    }
+  }, [activeSpotId, map, marker, infoWindow, spot.id]);
+
+  // 3. 마커 속성 업데이트 (spot.title 및 iconUrl 변경 시)
   useEffect(() => {
     if (!marker) return;
 
-    marker.setTitle(title || "");
-
+    marker.setTitle(spot.title || "");
     marker.setIcon({
       url: iconUrl || "/default-marker.svg",
       size: new naver.maps.Size(16, 16),
@@ -79,7 +91,7 @@ export default function Marker({ map, position, title, iconUrl }: MarkerProps) {
       origin: new naver.maps.Point(0, 0),
       anchor: new naver.maps.Point(8, 16),
     });
-  }, [title, iconUrl, marker]);
+  }, [marker, iconUrl, spot.title]);
 
   return null;
 }
