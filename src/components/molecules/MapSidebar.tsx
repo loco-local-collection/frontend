@@ -3,12 +3,12 @@
 import type { ReactNode } from "react";
 import type { Spot } from "@/types/map";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { useMapTagSelection } from "@/hooks/maps/useMapTagSelection";
 import { useMapSortOption } from "@/hooks/maps/useMapSortOption";
-import { useMapStore } from "@/store/mapStore";
+import { useSidebarStore, useSpotStore } from "@/store/mapStore";
 
 import SpotCard from "@/components/molecules/SpotCard";
 import { Button } from "@/components/atoms/Button";
@@ -26,12 +26,12 @@ interface SidebarProps {
  * 태그, 정렬을 통한 데이터 변경
  */
 export default function MapSidebar({ spots, ...props }: SidebarProps) {
-  const [isOpen, setIsOpen] = useState(true);
   const { selectedTags, availableTags, toggleTag } = useMapTagSelection();
   const { selectedSort, setSelectedSort, sortOptions } = useMapSortOption();
 
-  const setCenter = useMapStore((state) => state.setCenter);
-  const setActiveSpotId = useMapStore((state) => state.setActiveSpotId);
+  const { isSidebarOpen, toggleSidebar } = useSidebarStore();
+  const setCenter = useSpotStore((state) => state.setCenter);
+  const setActiveSpotId = useSpotStore((state) => state.setActiveSpotId);
 
   const sortedSpots = useMemo(() => {
     return [...spots].sort((a, b) => {
@@ -49,9 +49,9 @@ export default function MapSidebar({ spots, ...props }: SidebarProps) {
       <div
         className={cn(
           "h-full bg-white border-r border-gray-200 overflow-y-auto transition-all duration-300",
-          isOpen
-            ? "translate-x-0 w-64 sm:w-80 xl:w-[30rem]"
-            : "-translate-x-full w-64 sm:w-80 xl:w-[30rem]",
+          isSidebarOpen
+            ? "translate-x-0 w-64 sm:w-80"
+            : "-translate-x-full w-64 sm:w-80",
         )}
       >
         {/* 상단 헤더 */}
@@ -105,14 +105,16 @@ export default function MapSidebar({ spots, ...props }: SidebarProps) {
       {/* 사이드바 토글 버튼 */}
       <Button
         variant="secondary"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={toggleSidebar}
         className={cn(
           "absolute top-1/2 -translate-y-1/2 px-0 py-3 rounded-l-none transition-all duration-300",
-          isOpen ? "left-64 sm:left-80 xl:left-[30rem]" : "left-0",
+          isSidebarOpen ? "left-64 sm:left-80" : "left-0",
         )}
       >
-        {isOpen ? <ChevronLeft /> : <ChevronRight />}
-        <span className="sr-only">{isOpen ? "Close" : "Open"} sidebar</span>
+        {isSidebarOpen ? <ChevronLeft /> : <ChevronRight />}
+        <span className="sr-only">
+          {isSidebarOpen ? "Close" : "Open"} sidebar
+        </span>
       </Button>
     </aside>
   );

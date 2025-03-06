@@ -1,21 +1,27 @@
 import type { Spot } from "@/types/map";
 import { useEffect, useState } from "react";
 import ReactDOMServer from "react-dom/server";
-import { useMapStore } from "@/store/mapStore";
+import { useSpotStore } from "@/store/mapStore";
 import { MarkerWindow } from "@/components/atoms/MarkerWindow";
 
 interface MarkerProps {
   spot: Spot;
   map: naver.maps.Map | null;
+  onChangeActiveId?: () => void;
   iconUrl?: string;
 }
 
-export default function Marker({ spot, map, iconUrl }: MarkerProps) {
+export default function Marker({
+  spot,
+  map,
+  onChangeActiveId,
+  iconUrl,
+}: MarkerProps) {
   const [marker, setMarker] = useState<naver.maps.Marker | null>(null);
   const [infoWindow, setInfoWindow] = useState<naver.maps.InfoWindow | null>(
     null,
   );
-  const { activeSpotId, setActiveSpotId } = useMapStore();
+  const { activeSpotId, setActiveSpotId } = useSpotStore();
 
   // 1. 마커 및 인포 윈도우 생성 (map, spot, iconUrl 변경 시 재생성)
   useEffect(() => {
@@ -52,7 +58,7 @@ export default function Marker({ spot, map, iconUrl }: MarkerProps) {
       newMarker,
       "click",
       () => {
-        const currentActiveId = useMapStore.getState().activeSpotId;
+        const currentActiveId = useSpotStore.getState().activeSpotId;
         setActiveSpotId(currentActiveId === spot.id ? null : spot.id);
       },
     );
@@ -71,6 +77,7 @@ export default function Marker({ spot, map, iconUrl }: MarkerProps) {
     if (activeSpotId === spot.id) {
       if (!infoWindow.getMap()) {
         infoWindow.open(map, marker);
+        onChangeActiveId?.();
       }
     } else {
       if (infoWindow.getMap()) {

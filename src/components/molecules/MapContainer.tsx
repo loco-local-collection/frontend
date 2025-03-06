@@ -3,7 +3,8 @@
 import type { Spot } from "@/types/map";
 import { useEffect, useRef, useState } from "react";
 import Marker from "@/components/atoms/Marker";
-import { useMapStore } from "@/store/mapStore";
+import SpotDetail from "@/components/organisms/SpotDetailModal";
+import { useSpotStore } from "@/store/mapStore";
 
 interface MapContainerProps {
   spots: Spot[];
@@ -19,8 +20,9 @@ export default function MapContainer({
 }: MapContainerProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<naver.maps.Map | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const center = useMapStore((state) => state.center);
+  const center = useSpotStore((state) => state.center);
 
   // 마운트 시 지도 인스턴스 생성
   useEffect(() => {
@@ -40,16 +42,32 @@ export default function MapContainer({
 
   // center 값 변경 시 panTo 이동
   useEffect(() => {
-    if (map) {
-      const newCenter = new window.naver.maps.LatLng(center.lat, center.lng);
-      map.panTo(newCenter);
-    }
+    if (!map) return;
+
+    const proj = map.getProjection();
+    const centerCoord = new naver.maps.LatLng(center.lat, center.lng);
+
+    const sidebarWidth = 730 / 2;
+    const centerPoint = proj.fromCoordToOffset(centerCoord);
+    centerPoint.x -= sidebarWidth;
+    const offsetCoord = proj.fromOffsetToCoord(centerPoint);
+
+    map.panTo(offsetCoord);
   }, [center, map]);
 
   return (
     <div ref={mapRef} className={`grow rounded-lg shadow-md h-screen`}>
+      <SpotDetail isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
       {map &&
-        spots.map((spot) => <Marker key={spot.id} spot={spot} map={map} />)}
+        spots.map((spot) => (
+          <Marker
+            key={spot.id}
+            spot={spot}
+            map={map}
+            onChangeActiveId={() => setIsModalOpen(true)}
+          />
+        ))}
     </div>
   );
 }
