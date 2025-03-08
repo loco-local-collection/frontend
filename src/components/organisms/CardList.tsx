@@ -1,9 +1,13 @@
 "use client";
 
+import clsx from "clsx";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
 
-export default function CardList() {
+interface Props {
+  className?: string;
+}
+
+export default function CardList(props: Props) {
   const cards = [
     {
       id: 1,
@@ -16,67 +20,8 @@ export default function CardList() {
     },
   ];
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 24;
-  const [displayCards, setDisplayCards] = useState(
-    cards.slice(0, itemsPerPage)
-  );
-  const observerRef = useRef<HTMLDivElement | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  // 화면 크기 변경 감지
-  useEffect(() => {
-    const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    // 최초 실행
-    checkScreenSize();
-
-    // 리사이즈 이벤트 리스너 등록
-    window.addEventListener("resize", checkScreenSize);
-
-    return () => {
-      window.removeEventListener("resize", checkScreenSize);
-    };
-  }, []);
-
-  // 모바일 Infinite Scroll
-  useEffect(() => {
-    if (!isMobile) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          loadMore();
-        }
-      },
-      { threshold: 1 }
-    );
-
-    if (observerRef.current) {
-      observer.observe(observerRef.current);
-    }
-
-    return () => {
-      if (observerRef.current) {
-        observer.unobserve(observerRef.current);
-      }
-    };
-  }, [displayCards]);
-
-  const loadMore = () => {
-    const nextItems = cards.slice(0, displayCards.length + itemsPerPage);
-    setDisplayCards(nextItems);
-  };
-
-  // 데스크탑 Pagination
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const paginatedCards = cards.slice(indexOfFirstItem, indexOfLastItem);
-
   return (
-    <div className="p-4">
+    <div className={clsx("p-4", props.className)}>
       {/* 정렬 옵션 */}
       <div className="flex justify-end mb-4">
         <select className="border rounded px-3 py-1 text-sm">
@@ -138,35 +83,6 @@ export default function CardList() {
           </div>
         ))}
       </div>
-      {/* 모바일 Infinite Scroll 트리거 */}
-      {isMobile && <div ref={observerRef} className="h-10" />}
-
-      {/* 데스크탑 Pagination */}
-      {!isMobile && (
-        <div className="flex justify-center mt-6">
-          <button
-            className={`px-4 py-2 mx-1 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
-          >
-            이전
-          </button>
-          <span className="px-4 py-2 border rounded bg-gray-100">
-            {currentPage}
-          </span>
-          <button
-            className={`px-4 py-2 mx-1 border rounded ${indexOfLastItem >= cards.length ? "opacity-50 cursor-not-allowed" : ""}`}
-            onClick={() =>
-              setCurrentPage((prev) =>
-                indexOfLastItem < cards.length ? prev + 1 : prev
-              )
-            }
-            disabled={indexOfLastItem >= cards.length}
-          >
-            다음
-          </button>
-        </div>
-      )}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Script from "next/script";
-import { DevNav } from "@/components/__dev__/dev-nav";
+import { DevNav } from "@/components/__dev__/DevNav";
 
 export const metadata: Metadata = {
   title: "Create Next App",
