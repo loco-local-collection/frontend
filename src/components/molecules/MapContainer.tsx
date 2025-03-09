@@ -2,8 +2,9 @@
 
 import type { Spot } from "@/types/map";
 import { useEffect, useRef, useState } from "react";
-import Marker from "@/components/atoms/Marker";
 import SpotDetail from "@/components/organisms/SpotDetailModal";
+import Makers from "@/components/atoms/Markers";
+
 import { useSpotStore } from "@/store/mapStore";
 
 interface MapContainerProps {
@@ -23,6 +24,7 @@ export default function MapContainer({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const center = useSpotStore((state) => state.center);
+  const { activeSpotId } = useSpotStore();
 
   // 마운트 시 지도 인스턴스 생성
   useEffect(() => {
@@ -55,19 +57,16 @@ export default function MapContainer({
     map.panTo(offsetCoord);
   }, [center, map]);
 
+  // 활성 스팟 모달 관리
+  useEffect(() => {
+    if (!map || !activeSpotId) return;
+    setIsModalOpen(true);
+  }, [activeSpotId, map]);
+
   return (
     <div ref={mapRef} className={`grow rounded-lg shadow-md h-screen`}>
       <SpotDetail isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-
-      {map &&
-        spots.map((spot) => (
-          <Marker
-            key={spot.id}
-            spot={spot}
-            map={map}
-            onChangeActiveId={() => setIsModalOpen(true)}
-          />
-        ))}
+      {map && <Makers spots={spots} map={map} />}
     </div>
   );
 }
