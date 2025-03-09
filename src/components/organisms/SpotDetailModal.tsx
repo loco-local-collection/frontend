@@ -1,5 +1,7 @@
 import Image from "next/image";
+import { useEffect } from "react";
 import { MapPin, X } from "lucide-react";
+
 import { IconButton } from "@/components/atoms/IconButton";
 import { useSidebarStore, useSpotStore } from "@/store/mapStore";
 import { cn } from "@/lib/utils";
@@ -15,6 +17,25 @@ interface SpotDetailProps {
 export default function SpotDetail({ isOpen, onClose }: SpotDetailProps) {
   const activeSpotId = useSpotStore((state) => state.activeSpotId);
   const { isSidebarOpen } = useSidebarStore();
+
+  // 모바일 화면에서는 스크롤 잠금
+  useEffect(() => {
+    const handleBodyScroll = () => {
+      if (isOpen && window.innerWidth < 640) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+      }
+    };
+
+    handleBodyScroll();
+    window.addEventListener("resize", handleBodyScroll);
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("resize", handleBodyScroll);
+    };
+  }, [isOpen]);
 
   const comments = [
     {
@@ -48,8 +69,10 @@ export default function SpotDetail({ isOpen, onClose }: SpotDetailProps) {
   return (
     <div
       className={cn(
-        "fixed top-1/2 transform -translate-y-1/2 w-[380px] h-[95vh] overflow-y-auto rounded-xl bg-primary shadow-lg transition-all duration-300",
-        isSidebarOpen ? "left-[350px]" : "left-[30px]",
+        "fixed transform transition-all duration-300 bg-primary shadow-lg overflow-y-auto",
+        "sm:w-[380px] sm:top-1/2 sm:-translate-y-1/2 sm:rounded-xl sm:h-[95vh]",
+        "w-full h-full top-0 left-0 z-50",
+        isSidebarOpen ? "sm:left-[350px]" : "sm:left-[30px]",
       )}
     >
       <IconButton
@@ -61,7 +84,7 @@ export default function SpotDetail({ isOpen, onClose }: SpotDetailProps) {
       />
 
       {/* 메인 이미지 */}
-      <div className="relative w-full h-48 bg-gray-200 rounded-t-lg overflow-hidden">
+      <div className="relative w-full h-48 bg-gray-200 sm:rounded-t-lg overflow-hidden">
         <Image
           src="/logo.svg"
           alt="아이스걸크림보이 율리단길점"
