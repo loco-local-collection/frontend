@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { X } from "lucide-react";
+import { MapPin, X } from "lucide-react";
 import { IconButton } from "@/components/atoms/IconButton";
 import { useSidebarStore, useSpotStore } from "@/store/mapStore";
 import { cn } from "@/lib/utils";
@@ -9,6 +9,9 @@ interface SpotDetailProps {
   onClose: () => void;
 }
 
+/**
+ * 장소를 선택할시 나타나는 모달창
+ */
 export default function SpotDetail({ isOpen, onClose }: SpotDetailProps) {
   const activeSpotId = useSpotStore((state) => state.activeSpotId);
   const { isSidebarOpen } = useSidebarStore();
@@ -27,6 +30,18 @@ export default function SpotDetail({ isOpen, onClose }: SpotDetailProps) {
       userAvatar: "/logo.svg",
     },
   ];
+
+  // Enter 시 댓글 전송
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+      const commentValue = e.currentTarget.value.trim();
+      if (!commentValue) return;
+
+      console.log("새 댓글 전송:", commentValue);
+
+      e.currentTarget.value = "";
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -61,9 +76,10 @@ export default function SpotDetail({ isOpen, onClose }: SpotDetailProps) {
           <h2 className="text-xl font-bold text-gray-800">
             아이스걸크림보이 율리단길점 {activeSpotId}
           </h2>
-          <p className="text-sm text-gray-500 mt-1">
-            서울 용산구 한강대로50길 17
-          </p>
+          <div className="flex items-center mt-1 gap-1 text-gray-500">
+            <MapPin size={16} />
+            <p className="text-sm">서울 용산구 한강대로50길 17</p>
+          </div>
         </div>
 
         {/* 소개 */}
@@ -71,11 +87,18 @@ export default function SpotDetail({ isOpen, onClose }: SpotDetailProps) {
           계절마다 독특한 수제 아이스크림을 맛볼 수 있는 예쁜 가게
         </div>
 
-        {/* 댓글 */}
+        {/* 댓글 영역 */}
         <div>
           <h3 className="text-sm font-semibold mb-2 text-gray-700">
             댓글 {comments.length}개
           </h3>
+          <div className="mb-4">
+            <input
+              placeholder="댓글추가..."
+              onKeyDown={handleKeyDown}
+              className="w-full bg-transparent border-b border-gray-300 focus:outline-none focus:border-focusRing transition-colors"
+            />
+          </div>
           <div className="space-y-4">
             {comments.map((comment) => (
               <div key={comment.id} className="flex items-start gap-3">
