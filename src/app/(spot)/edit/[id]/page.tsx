@@ -1,7 +1,7 @@
 import type { Spot } from "@/types/map";
-import PlaceSearchMap from "@/components/organisms/PlaceSearchMap";
+import SpotEdit from "@/components/organisms/SpotEdit";
 
-export default async function MapDetail(
+export default async function MapSpotEdit(
   {
     // params,
   }: {
@@ -44,7 +44,7 @@ export default async function MapDetail(
 
   return (
     <>
-      <PlaceSearchMap initialData={initialData} />
+      <SpotEdit initialData={initialData} />
     </>
   );
 }
