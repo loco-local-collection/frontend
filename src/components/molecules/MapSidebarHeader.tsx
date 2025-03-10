@@ -7,7 +7,7 @@ export default function MapSidebarHeader() {
   return (
     <div
       className={cn(
-        "relative h-52 flex flex-col items-start justify-end px-6 py-4",
+        "relative h-13 sm:h-52 flex flex-col items-center justify-center sm:items-start sm:justify-end px-6 py-4",
         headerBgImageUrl ? "bg-transparent" : "bg-gray-700",
       )}
     >
