@@ -87,6 +87,7 @@ naver.maps.Util.ClassExtend(MarkerClustering, naver.maps.OverlayView, {
    * @param {Object | string} newOptions 옵션
    */
   setOptions: function (newOptions) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     var _this = this;
 
     if (typeof newOptions === "string") {
@@ -115,6 +116,7 @@ naver.maps.Util.ClassExtend(MarkerClustering, naver.maps.OverlayView, {
    * @return {Any} 옵션
    */
   getOptions: function (key) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     var _this = this,
       options = {};
 
@@ -618,6 +620,7 @@ Cluster.prototype = {
   updateCount: function () {
     var stylingFunction = this._markerClusterer.getStylingFunction();
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     stylingFunction && stylingFunction(this._clusterMarker, this.getCount());
   },
 

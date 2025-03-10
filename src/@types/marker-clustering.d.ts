@@ -32,6 +32,7 @@ declare module "@/lib/MarkerClustering" {
     constructor(options: MarkerClusteringOptions);
     setMap(map: naver.maps.Map | null): void;
     getMarkers(): naver.maps.Marker[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getClusters(): any[]; // You could further define Cluster interface if needed
   }
 
