@@ -33,7 +33,7 @@ export const LoginPage = () => {
             placeholder="이메일을 입력하세요"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            error={error ? "이메일을 입력해주세요." : ""}
+            errorMessage={error ? "이메일을 입력해주세요." : ""}
           />
           <Input
             label="비밀번호"
@@ -41,7 +41,7 @@ export const LoginPage = () => {
             placeholder="비밀번호를 입력하세요"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            error={error ? "비밀번호를 입력해주세요." : ""}
+            errorMessage={error ? "비밀번호를 입력해주세요." : ""}
           />
           {error && <p className="text-danger text-sm">{error}</p>}
           <Button type="submit" variant="primary">

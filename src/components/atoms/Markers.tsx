@@ -100,6 +100,7 @@ export default function Makers({ spots = [], map }: MakersProps) {
         markerClustering.setMap(null);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, spots]);
 
   // 마커 클러스터링 초기화
