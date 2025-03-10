@@ -1,18 +1,25 @@
+"use client";
+
 import Image from "next/image";
 import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi"; // 아이콘 추가
 import { HiSearch } from "react-icons/hi";
 import { Input } from "../atoms/Input";
 import { IconButton } from "../atoms/IconButton";
+import clsx from "clsx";
 
-export default function Header() {
+interface Props {
+  className?: string;
+}
+
+export default function Header(props: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <>
-      <header className="flex items-center justify-between px-6 py-3 border-b">
+    <div className={clsx(props.className)}>
+      <header className="flex items-center justify-between px-8 py-4 border-b">
         {/* Left Section */}
-        <div className="flex items-center space-x-6">
+        <div className="flex items-center space-x-8">
           {/* Logo */}
           <div>
             <Image width={64} height={32} src={"/logo.svg"} alt={"home"} />
@@ -66,7 +73,11 @@ export default function Header() {
 
       {/* 모바일 사이드 메뉴 (햄버거 메뉴) */}
       {menuOpen && (
-        <div className="fixed inset-0 bg-inverse-bold bg-opacity-50 z-50 flex justify-end md:hidden">
+        <div
+          className={`fixed inset-0 bg-inverse-bold bg-opacity-50 z-50 flex justify-end md:hidden transition-transform duration-300 ${
+            menuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
           <div className="w-80 bg-primary h-full p-6 shadow-lg">
             {/* 닫기 버튼 */}
             <div className="flex justify-between items-center">
@@ -108,6 +119,6 @@ export default function Header() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

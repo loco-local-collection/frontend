@@ -1,5 +1,8 @@
+"use client";
+
 import { useState } from "react";
 import { Button } from "../atoms/Button";
+import clsx from "clsx";
 
 const categories = [
   "서포터즈/기자단",
@@ -9,11 +12,15 @@ const categories = [
   "행사/전시/페스티벌",
 ];
 
-export default function CategoryFilter() {
+interface Props {
+  className?: string;
+}
+
+export default function CategoryFilter(props: Props) {
   const [selected, setSelected] = useState("전체");
 
   return (
-    <div className="bg-tertiary p-3 rounded-lg">
+    <div className={clsx("bg-tertiary p-3 rounded-lg", props.className)}>
       {/* 반응형 컨테이너 */}
       <div className="flex md:flex-wrap space-x-3 md:space-x-2 overflow-x-auto md:overflow-visible whitespace-nowrap snap-x snap-mandatory scrollbar-hide">
         {/* 전체 버튼 */}

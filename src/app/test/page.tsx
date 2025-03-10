@@ -1,19 +1,15 @@
 "use client";
 
-import SpotCreateModal from "@/components/organisms/SpotCreateModal";
+import CardList from "@/components/organisms/CardList";
+import CategoryFilter from "@/components/organisms/CategoryFilter";
+import Header from "@/components/organisms/Header";
 
 export default function TestPage() {
   return (
     <div>
-      <SpotCreateModal
-        isOpen={true}
-        onClose={() => {
-          return null;
-        }}
-        onCreate={() => {
-          return null;
-        }}
-      />
+      <Header />
+      <CategoryFilter />
+      <CardList />
     </div>
   );
 }
