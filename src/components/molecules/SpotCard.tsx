@@ -2,17 +2,21 @@
 
 import type { Spot } from "@/types/map";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 interface SpotCardProps {
   spot: Spot;
-  onClick: () => void;
+  onClick?: () => void;
   className?: string;
 }
 
 export default function SpotCard({ spot, onClick, className }: SpotCardProps) {
   return (
     <div
-      className={`cursor-pointer rounded-lg border hover:shadow-lg overflow-hidden ${className}`}
+      className={cn(
+        `cursor-pointer rounded-lg border hover:shadow-lg overflow-hidden`,
+        className,
+      )}
       onClick={onClick}
     >
       <div className="relative w-full h-32 bg-gray-200">

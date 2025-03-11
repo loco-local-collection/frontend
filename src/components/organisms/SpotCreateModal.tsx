@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { IoClose } from "react-icons/io5";
 import Image from "next/image";
+import { useState } from "react";
+import { X } from "lucide-react";
 
 interface SpotCreateModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onCreate: (spotData: SpotData) => void;
+  onCreate?: (spotData: SpotData) => void;
 }
 
 interface SpotData {
@@ -45,7 +45,7 @@ export default function SpotCreateModal({
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -59,7 +59,7 @@ export default function SpotCreateModal({
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
-    onCreate(formData);
+    onCreate?.(formData);
   };
 
   if (!isOpen) return null;
@@ -72,7 +72,7 @@ export default function SpotCreateModal({
           className="absolute top-4 right-4 text-gray-600 hover:text-gray-900"
           onClick={onClose}
         >
-          <IoClose size={24} />
+          <X size={24} />
         </button>
 
         {/* 제목 & 설명 */}

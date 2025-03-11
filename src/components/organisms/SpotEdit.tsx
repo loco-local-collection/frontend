@@ -8,6 +8,7 @@ import SpotCard from "@/components/molecules/SpotCard";
 import SpotDetail from "@/components/organisms/SpotDetailModal";
 import { Button } from "@/components/atoms/Button";
 import { useSpotStore } from "@/store/mapStore";
+import SpotCreateModal from "@/components/organisms/SpotCreateModal";
 
 interface SpotEditProps {
   initialData: Spot[];
@@ -15,19 +16,15 @@ interface SpotEditProps {
 
 export default function SpotEdit({ initialData }: SpotEditProps) {
   const [spots] = useState<Spot[]>(initialData);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const setActiveSpotId = useSpotStore((state) => state.setActiveSpotId);
-
-  // 추가 버튼 클릭 핸들러
-  const handleAddNew = () => {
-    console.log("새 장소 추가");
-  };
 
   // 수정 버튼 클릭 핸들러
   const handleEdit = (spot: Spot) => {
     console.log("장소 수정:", spot.id);
     setActiveSpotId(spot.id);
-    setIsModalOpen(true);
+    setIsDetailModalOpen(true);
   };
 
   // 삭제 버튼 클릭 핸들러
@@ -56,8 +53,14 @@ export default function SpotEdit({ initialData }: SpotEditProps) {
 
         {/* Spots 상세 모달 */}
         <SpotDetail
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          isOpen={isDetailModalOpen}
+          onClose={() => setIsDetailModalOpen(false)}
+        />
+
+        {/* Spots 상세 모달 */}
+        <SpotCreateModal
+          isOpen={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
         />
 
         {/* Spots 리스트 */}
@@ -66,7 +69,7 @@ export default function SpotEdit({ initialData }: SpotEditProps) {
           <div className="flex">
             <div
               className="w-full min-h-[200px] cursor-pointer rounded-lg border hover:shadow-lg overflow-hidden flex flex-col gap-2 items-center justify-center bg-gray-100"
-              onClick={handleAddNew}
+              onClick={() => setIsCreateModalOpen(true)}
             >
               <div className="flex items-center justify-center py-4">
                 <SquarePlus size={36} className="text-gray-400" />
@@ -80,11 +83,7 @@ export default function SpotEdit({ initialData }: SpotEditProps) {
             <div key={index} className="flex flex-col">
               <SpotCard
                 spot={spot}
-                onClick={() => {
-                  setActiveSpotId(spot.id);
-                  setIsModalOpen(true);
-                }}
-                className="w-full flex-grow"
+                className="w-full flex-grow hover:shadow-none cursor-auto"
               />
               {/* 수정/삭제 버튼 */}
               <div className="flex mt-2 space-x-2">
