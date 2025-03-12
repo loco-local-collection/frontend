@@ -1,15 +1,14 @@
 "use client";
 
-import CardList from "@/components/organisms/CardList";
-import CategoryFilter from "@/components/organisms/CategoryFilter";
-import Header from "@/components/organisms/Header";
+import { MswWrapper } from "@/components/msw-wrapper/MswWrapper";
+import { TestButton } from "@/components/msw-wrapper/TestButton";
 
 export default function TestPage() {
   return (
     <div>
-      <Header />
-      <CategoryFilter />
-      <CardList />
+      <MswWrapper>
+        <TestButton />
+      </MswWrapper>
     </div>
   );
 }
