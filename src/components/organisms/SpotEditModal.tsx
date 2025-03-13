@@ -1,39 +1,61 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import type { Spot } from "@/types/map";
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { X, Search } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 
-interface SpotCreateModalProps {
+interface SpotEditModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onCreate?: (spotData: SpotData) => void;
+  onEdit?: (spotData: Spot) => void;
+  spot: Spot;
 }
 
-interface SpotData {
+interface FormData {
   title: string;
   description: string;
   tags: string;
 }
 
-export default function SpotCreateModal({
+export default function SpotEditModal({
   isOpen,
   onClose,
-  onCreate,
-}: SpotCreateModalProps) {
-  const [formData, setFormData] = useState<SpotData>({
+  onEdit,
+  spot,
+}: SpotEditModalProps) {
+  const [formData, setFormData] = useState<FormData>({
     title: "",
     description: "",
     tags: "",
   });
 
+  // Initialize form with spot data when modal opens or spot changes
+  useEffect(() => {
+    if (isOpen && spot) {
+      setFormData({
+        title: spot.title,
+        description: spot.description || "",
+        tags: "", // Spot doesn't have tags, so initialize as empty
+      });
+    }
+  }, [isOpen, spot]);
+
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setFormData({ ...formData, [e.target.title]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    onCreate?.(formData);
+
+    // Create updated spot object, preserving fields not in the form
+    const updatedSpot: Spot = {
+      ...spot,
+      title: formData.title,
+      description: formData.description,
+    };
+
+    onEdit?.(updatedSpot);
   };
 
   if (!isOpen) return null;
@@ -51,16 +73,16 @@ export default function SpotCreateModal({
         </button>
 
         {/* Title & Description */}
-        <h2 className="text-xl font-semibold text-center">새 장소 추가</h2>
+        <h2 className="text-xl font-semibold text-center">장소 정보 수정</h2>
         <p className="text-gray-500 text-sm mt-1 text-center">
-          원하시는 마크 포인트를 검색해보세요
+          장소 정보를 수정해보세요
         </p>
 
         <form onSubmit={handleSubmit}>
-          {/* Search field */}
+          {/* Search field (Name/Title) */}
           <div className="mt-6">
             <label htmlFor="name" className="text-sm font-semibold">
-              장소 검색
+              장소 이름
             </label>
             <div className="relative mt-1">
               <input
@@ -76,7 +98,6 @@ export default function SpotCreateModal({
                 <Search size={18} className="text-gray-400" />
               </div>
             </div>
-            <p className="text-red-500 text-xs mt-1">장소를 검색해주세요</p>
           </div>
 
           {/* Description */}
@@ -118,7 +139,7 @@ export default function SpotCreateModal({
           {/* Bottom buttons */}
           <div className="flex justify-between gap-2 mt-6">
             <Button type="submit" variant="primary" className="flex-1">
-              생성
+              수정
             </Button>
             <Button
               type="button"

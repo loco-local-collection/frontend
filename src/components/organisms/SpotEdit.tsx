@@ -5,41 +5,52 @@ import { useState } from "react";
 import { SquarePlus, Edit, Trash2 } from "lucide-react";
 
 import SpotCard from "@/components/molecules/SpotCard";
-import SpotDetail from "@/components/organisms/SpotDetailModal";
-import { Button } from "@/components/atoms/Button";
-import { useSpotStore } from "@/store/mapStore";
 import SpotCreateModal from "@/components/organisms/SpotCreateModal";
+import SpotEditModal from "@/components/organisms/SpotEditModal";
+import { Button } from "@/components/atoms/Button";
 
 interface SpotEditProps {
   initialData: Spot[];
 }
 
 export default function SpotEdit({ initialData }: SpotEditProps) {
-  const [spots] = useState<Spot[]>(initialData);
-  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [spots, setSpots] = useState<Spot[]>(initialData);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const setActiveSpotId = useSpotStore((state) => state.setActiveSpotId);
+  const [selectedSpot, setSelectedSpot] = useState<Spot | null>(null);
 
   // 수정 버튼 클릭 핸들러
   const handleEdit = (spot: Spot) => {
     console.log("장소 수정:", spot.id);
-    setActiveSpotId(spot.id);
-    setIsDetailModalOpen(true);
+    setSelectedSpot(spot);
+    setIsEditModalOpen(true);
   };
 
   // 삭제 버튼 클릭 핸들러
   const handleDelete = (spot: Spot) => {
     console.log("장소 삭제:", spot.id);
+    // Filter out the deleted spot
+    setSpots(spots.filter((s) => s.id !== spot.id));
   };
 
   // 저장 버튼 클릭 핸들러
   const handleSave = () => {
     console.log("변경사항 저장");
+    // Here you would typically save the spots to your backend
   };
 
   // 취소 버튼 클릭 핸들러
   const handleCancel = () => {
     console.log("편집 취소");
+    // Reset spots to initialData
+    setSpots(initialData);
+  };
+
+  // 스팟 업데이트 핸들러
+  const handleSpotUpdate = (updatedSpot: Spot) => {
+    setSpots(
+      spots.map((spot) => (spot.id === updatedSpot.id ? updatedSpot : spot)),
+    );
   };
 
   return (
@@ -51,13 +62,17 @@ export default function SpotEdit({ initialData }: SpotEditProps) {
           <p className="text-gray-600">당신이 아는 곳들을 공유해 보세요</p>
         </div>
 
-        {/* Spots 상세 모달 */}
-        <SpotDetail
-          isOpen={isDetailModalOpen}
-          onClose={() => setIsDetailModalOpen(false)}
-        />
+        {/* Spot 수정 모달 */}
+        {selectedSpot && (
+          <SpotEditModal
+            isOpen={isEditModalOpen}
+            onClose={() => setIsEditModalOpen(false)}
+            onEdit={handleSpotUpdate}
+            spot={selectedSpot}
+          />
+        )}
 
-        {/* Spots 상세 모달 */}
+        {/* Spots 생성 모달 */}
         <SpotCreateModal
           isOpen={isCreateModalOpen}
           onClose={() => setIsCreateModalOpen(false)}
