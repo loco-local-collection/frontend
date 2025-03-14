@@ -8,7 +8,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { useMapTagSelection } from "@/hooks/maps/useMapTagSelection";
 import { useMapSortOption } from "@/hooks/maps/useMapSortOption";
-import { useSidebarStore, useMapStore } from "@/store/mapStore";
+import { useSidebarStore, useMapStore } from "@/store/spotMapStore";
 
 import PlaceCard from "@/components/molecules/PlaceCard";
 import { Button } from "@/components/atoms/Button";

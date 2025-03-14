@@ -6,7 +6,7 @@ import ReactDOMServer, { renderToString } from "react-dom/server";
 
 import Marker from "@/components/spotMap/Marker";
 import { MarkerWindow } from "@/components/spotMap/MarkerWindow";
-import { useMapStore } from "@/store/mapStore";
+import { useMapStore } from "@/store/spotMapStore";
 
 // Define interface for the marker with place data
 interface MarkerWithPlaceData extends naver.maps.Marker {

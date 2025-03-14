@@ -3,7 +3,7 @@ import { useEffect, KeyboardEvent } from "react";
 import { MapPin, X } from "lucide-react";
 
 import { IconButton } from "@/components/atoms/IconButton";
-import { useSidebarStore, useMapStore } from "@/store/mapStore";
+import { useSidebarStore, useMapStore } from "@/store/spotMapStore";
 import { cn } from "@/lib/utils";
 
 interface PlaceDetailModalProps {

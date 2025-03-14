@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import PlaceDetailModal from "@/components/spotMap/PlaceDetailModal";
 import Makers from "@/components/spotMap/Markers";
 import { useMediaQuery } from "@/hooks/utils/useMediaQuery";
-import { useMapStore } from "@/store/mapStore";
+import { useMapStore } from "@/store/spotMapStore";
 import { BREAKPOINTS } from "@/constants/breakpoints";
 
 interface MapContainerProps {
