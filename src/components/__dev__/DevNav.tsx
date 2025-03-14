@@ -15,6 +15,10 @@ const links: LinkItem[] = [
     href: `/map/e2bd57e6-4cc4-4851-a346-adc329085281`,
   },
   {
+    tag: "지도 수정 페이지",
+    href: `/edit/e2bd57e6-4cc4-4851-a346-adc329085281`,
+  },
+  {
     tag: "테스트 페이지",
     href: `/test`,
   },

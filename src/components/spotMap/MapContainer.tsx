@@ -1,15 +1,15 @@
 "use client";
 
-import type { Spot } from "@/types/map";
+import type { Place } from "@/types/spot";
 import { useEffect, useRef, useState } from "react";
-import SpotDetail from "@/components/organisms/SpotDetailModal";
-import Makers from "@/components/atoms/Markers";
+import PlaceDetailModal from "@/components/spotMap/PlaceDetailModal";
+import Makers from "@/components/spotMap/Markers";
 import { useMediaQuery } from "@/hooks/utils/useMediaQuery";
-import { useSpotStore } from "@/store/mapStore";
+import { useMapStore } from "@/store/spotMapStore";
 import { BREAKPOINTS } from "@/constants/breakpoints";
 
 interface MapContainerProps {
-  spots: Spot[];
+  places: Place[];
   zoom?: number;
 }
 
@@ -18,15 +18,15 @@ interface MapContainerProps {
  */
 export default function MapContainer({
   zoom = 14,
-  spots = [],
+  places = [],
 }: MapContainerProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<naver.maps.Map | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isMobile = useMediaQuery(BREAKPOINTS.mobile);
 
-  const center = useSpotStore((state) => state.center);
-  const { activeSpotId } = useSpotStore();
+  const center = useMapStore((state) => state.center);
+  const { activePlaceId } = useMapStore();
 
   // 마운트 시 지도 인스턴스 생성
   useEffect(() => {
@@ -75,14 +75,17 @@ export default function MapContainer({
 
   // 활성 스팟 모달 관리
   useEffect(() => {
-    if (!map || !activeSpotId) return;
+    if (!map || !activePlaceId) return;
     setIsModalOpen(true);
-  }, [activeSpotId, map]);
+  }, [activePlaceId, map]);
 
   return (
     <div ref={mapRef} className={`grow rounded-lg shadow-md h-screen`}>
-      <SpotDetail isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-      {map && <Makers spots={spots} map={map} />}
+      <PlaceDetailModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+      {map && <Makers places={places} map={map} />}
     </div>
   );
 }
