@@ -1,16 +1,16 @@
 "use client";
 
-import type { Spot } from "@/types/map";
+import type { Place } from "@/types/spot";
 import { useEffect, useState } from "react";
 import ReactDOMServer, { renderToString } from "react-dom/server";
 
-import Marker from "@/components/atoms/Marder";
-import { MarkerWindow } from "@/components/atoms/MarkerWindow";
-import { useSpotStore } from "@/store/mapStore";
+import Marker from "@/components/spotMap/Marker";
+import { MarkerWindow } from "@/components/spotMap/MarkerWindow";
+import { useMapStore } from "@/store/mapStore";
 
-// Define interface for the marker with spot data
-interface MarkerWithSpotData extends naver.maps.Marker {
-  spotData: Spot;
+// Define interface for the marker with place data
+interface MarkerWithPlaceData extends naver.maps.Marker {
+  placeData: Place;
 }
 
 // Define basic interface for MarkerClustering
@@ -19,38 +19,38 @@ interface MarkerClustering {
 }
 
 interface MakersProps {
-  spots: Spot[];
+  places: Place[];
   map: naver.maps.Map | null;
 }
 
 /**
  * 마커 및 클러스터링을 관리하는 컴포넌트
  */
-export default function Makers({ spots = [], map }: MakersProps) {
+export default function Makers({ places = [], map }: MakersProps) {
   const [markerClustering, setMarkerClustering] =
     useState<MarkerClustering | null>(null);
-  const [markers, setMarkers] = useState<MarkerWithSpotData[]>([]);
+  const [markers, setMarkers] = useState<MarkerWithPlaceData[]>([]);
   const [infoWindows, setInfoWindows] = useState<naver.maps.InfoWindow[]>([]);
 
-  const { activeSpotId, setActiveSpotId } = useSpotStore();
+  const { activePlaceId, setActivePlaceId } = useMapStore();
 
   // 마커 및 인포윈도우 생성
   useEffect(() => {
-    if (!map || spots.length === 0) return;
+    if (!map || places.length === 0) return;
 
     // 기존 마커와 인포윈도우 정리
     markers.forEach((marker) => marker.setMap(null));
     infoWindows.forEach((infoWindow) => infoWindow.close());
 
-    const newMarkers: MarkerWithSpotData[] = [];
+    const newMarkers: MarkerWithPlaceData[] = [];
     const newInfoWindows: naver.maps.InfoWindow[] = [];
 
     // 마커 및 인포윈도우 생성
-    spots.forEach((spot) => {
+    places.forEach((place) => {
       // 마커 생성
       const marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(spot.lat, spot.lng),
-        title: spot.title,
+        position: new naver.maps.LatLng(place.lat, place.lng),
+        title: place.title,
         icon: {
           url: "/default-marker.svg",
           size: new naver.maps.Size(16, 16),
@@ -58,14 +58,14 @@ export default function Makers({ spots = [], map }: MakersProps) {
           origin: new naver.maps.Point(0, 0),
           anchor: new naver.maps.Point(8, 16),
         },
-      }) as MarkerWithSpotData;
+      }) as MarkerWithPlaceData;
 
       // 마커에 데이터 저장
-      marker.spotData = spot;
+      marker.placeData = place;
 
       // 인포윈도우 생성
       const infoWindowContent = ReactDOMServer.renderToString(
-        <MarkerWindow spot={spot} />,
+        <MarkerWindow place={place} />,
       );
 
       const infoWindow = new naver.maps.InfoWindow({
@@ -78,8 +78,8 @@ export default function Makers({ spots = [], map }: MakersProps) {
 
       // 마커 클릭 이벤트 리스너
       naver.maps.Event.addListener(marker, "click", () => {
-        const spotId = marker.spotData.id;
-        setActiveSpotId(activeSpotId === spotId ? null : spotId);
+        const placeId = marker.placeData.id;
+        setActivePlaceId(activePlaceId === placeId ? null : placeId);
       });
 
       newMarkers.push(marker);
@@ -101,10 +101,10 @@ export default function Makers({ spots = [], map }: MakersProps) {
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, spots]);
+  }, [map, places]);
 
   // 마커 클러스터링 초기화
-  const initClustering = async (newMarkers: MarkerWithSpotData[]) => {
+  const initClustering = async (newMarkers: MarkerWithPlaceData[]) => {
     if (!map || !window.naver) return;
 
     try {
@@ -157,15 +157,15 @@ export default function Makers({ spots = [], map }: MakersProps) {
     }
   };
 
-  // activeSpotId 변경에 따라 인포윈도우 열고 닫기
+  // activePlaceId 변경에 따라 인포윈도우 열고 닫기
   useEffect(() => {
     if (!map || markers.length === 0 || infoWindows.length === 0) return;
 
     infoWindows.forEach((infoWindow, index) => {
       const marker = markers[index];
-      const spotId = marker.spotData.id;
+      const placeId = marker.placeData.id;
 
-      if (activeSpotId === spotId) {
+      if (activePlaceId === placeId) {
         if (!infoWindow.getMap()) {
           infoWindow.open(map, marker);
         }
@@ -175,7 +175,7 @@ export default function Makers({ spots = [], map }: MakersProps) {
         }
       }
     });
-  }, [activeSpotId, map, markers, infoWindows]);
+  }, [activePlaceId, map, markers, infoWindows]);
 
   return null;
 }

@@ -1,5 +1,5 @@
-import type { Spot } from "@/types/map";
-import PlaceSearchMap from "@/components/organisms/PlaceSearchMap";
+import type { Place } from "@/types/spot";
+import SpotMap from "@/components/spotMap/SpotMap";
 
 export default async function MapSpotDetail(
   {
@@ -11,7 +11,7 @@ export default async function MapSpotDetail(
   // const id = (await params).id;
 
   // fetch data
-  const initialData: Spot[] = [
+  const initialData: Place[] = [
     {
       id: 1,
       title: "아이스 걸크림보이 용리단길점",
@@ -44,7 +44,7 @@ export default async function MapSpotDetail(
 
   return (
     <>
-      <PlaceSearchMap initialData={initialData} />
+      <SpotMap initialData={initialData} />
     </>
   );
 }

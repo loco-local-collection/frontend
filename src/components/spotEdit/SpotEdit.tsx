@@ -1,55 +1,57 @@
 "use client";
 
-import type { Spot } from "@/types/map";
+import type { Place } from "@/types/spot";
 import { useState } from "react";
 import { SquarePlus, Edit, Trash2 } from "lucide-react";
 
-import SpotCard from "@/components/molecules/SpotCard";
-import SpotCreateModal from "@/components/organisms/SpotCreateModal";
-import SpotEditModal from "@/components/organisms/SpotEditModal";
+import PlaceCard from "@/components/molecules/PlaceCard";
+import PlaceCreateModal from "@/components/spotEdit/PlaceCreateModal";
+import PlaceEditModal from "@/components/spotEdit/PlaceEditModal";
 import { Button } from "@/components/atoms/Button";
 
 interface SpotEditProps {
-  initialData: Spot[];
+  initialData: Place[];
 }
 
 export default function SpotEdit({ initialData }: SpotEditProps) {
-  const [spots, setSpots] = useState<Spot[]>(initialData);
+  const [places, setPlaces] = useState<Place[]>(initialData);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [selectedSpot, setSelectedSpot] = useState<Spot | null>(null);
+  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
 
   // 수정 버튼 클릭 핸들러
-  const handleEdit = (spot: Spot) => {
-    console.log("장소 수정:", spot.id);
-    setSelectedSpot(spot);
+  const handleEdit = (place: Place) => {
+    console.log("장소 수정:", place.id);
+    setSelectedPlace(place);
     setIsEditModalOpen(true);
   };
 
   // 삭제 버튼 클릭 핸들러
-  const handleDelete = (spot: Spot) => {
-    console.log("장소 삭제:", spot.id);
-    // Filter out the deleted spot
-    setSpots(spots.filter((s) => s.id !== spot.id));
+  const handleDelete = (place: Place) => {
+    console.log("장소 삭제:", place.id);
+    // Filter out the deleted place
+    setPlaces(places.filter((s) => s.id !== place.id));
   };
 
   // 저장 버튼 클릭 핸들러
   const handleSave = () => {
     console.log("변경사항 저장");
-    // Here you would typically save the spots to your backend
+    // Here you would typically save the places to your backend
   };
 
   // 취소 버튼 클릭 핸들러
   const handleCancel = () => {
     console.log("편집 취소");
-    // Reset spots to initialData
-    setSpots(initialData);
+    // Reset places to initialData
+    setPlaces(initialData);
   };
 
   // 스팟 업데이트 핸들러
-  const handleSpotUpdate = (updatedSpot: Spot) => {
-    setSpots(
-      spots.map((spot) => (spot.id === updatedSpot.id ? updatedSpot : spot)),
+  const handlePlaceUpdate = (updatedPlace: Place) => {
+    setPlaces(
+      places.map((place) =>
+        place.id === updatedPlace.id ? updatedPlace : place,
+      ),
     );
   };
 
@@ -62,23 +64,23 @@ export default function SpotEdit({ initialData }: SpotEditProps) {
           <p className="text-gray-600">당신이 아는 곳들을 공유해 보세요</p>
         </div>
 
-        {/* Spot 수정 모달 */}
-        {selectedSpot && (
-          <SpotEditModal
+        {/* Place 수정 모달 */}
+        {selectedPlace && (
+          <PlaceEditModal
             isOpen={isEditModalOpen}
             onClose={() => setIsEditModalOpen(false)}
-            onEdit={handleSpotUpdate}
-            spot={selectedSpot}
+            onEdit={handlePlaceUpdate}
+            place={selectedPlace}
           />
         )}
 
-        {/* Spots 생성 모달 */}
-        <SpotCreateModal
+        {/* Place 생성 모달 */}
+        <PlaceCreateModal
           isOpen={isCreateModalOpen}
           onClose={() => setIsCreateModalOpen(false)}
         />
 
-        {/* Spots 리스트 */}
+        {/* Places 리스트 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
           {/* 추가하기 버튼 */}
           <div className="flex">
@@ -94,10 +96,10 @@ export default function SpotEdit({ initialData }: SpotEditProps) {
           </div>
 
           {/* 스팟 카드들 */}
-          {spots.map((spot, index) => (
+          {places.map((place, index) => (
             <div key={index} className="flex flex-col">
-              <SpotCard
-                spot={spot}
+              <PlaceCard
+                place={place}
                 className="w-full flex-grow hover:shadow-none cursor-auto"
               />
               {/* 수정/삭제 버튼 */}
@@ -107,7 +109,7 @@ export default function SpotEdit({ initialData }: SpotEditProps) {
                   size="sm"
                   className="flex-1"
                   leftIcon={<Edit size={16} />}
-                  onClick={() => handleEdit(spot)}
+                  onClick={() => handleEdit(place)}
                 >
                   수정
                 </Button>
@@ -116,7 +118,7 @@ export default function SpotEdit({ initialData }: SpotEditProps) {
                   size="sm"
                   className="flex-1"
                   leftIcon={<Trash2 size={16} />}
-                  onClick={() => handleDelete(spot)}
+                  onClick={() => handleDelete(place)}
                 >
                   삭제
                 </Button>

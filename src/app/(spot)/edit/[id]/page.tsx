@@ -1,5 +1,5 @@
-import type { Spot } from "@/types/map";
-import SpotEdit from "@/components/organisms/SpotEdit";
+import type { Place } from "@/types/spot";
+import SpotEdit from "@/components/spotEdit/SpotEdit";
 
 export default async function MapSpotEdit(
   {
@@ -11,7 +11,7 @@ export default async function MapSpotEdit(
   // const id = (await params).id;
 
   // fetch data
-  const initialData: Spot[] = [
+  const initialData: Place[] = [
     {
       id: 1,
       title: "아이스 걸크림보이 용리단길점",

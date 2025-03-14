@@ -1,16 +1,20 @@
 "use client";
 
-import type { Spot } from "@/types/map";
+import type { Place } from "@/types/spot";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-interface SpotCardProps {
-  spot: Spot;
+interface PlaceCardProps {
+  place: Place;
   onClick?: () => void;
   className?: string;
 }
 
-export default function SpotCard({ spot, onClick, className }: SpotCardProps) {
+export default function PlaceCard({
+  place,
+  onClick,
+  className,
+}: PlaceCardProps) {
   return (
     <div
       className={cn(
@@ -20,10 +24,10 @@ export default function SpotCard({ spot, onClick, className }: SpotCardProps) {
       onClick={onClick}
     >
       <div className="relative w-full h-32 bg-gray-200">
-        {spot.imageUrl ? (
+        {place.imageUrl ? (
           <Image
-            src={spot.imageUrl}
-            alt={spot.title}
+            src={place.imageUrl}
+            alt={place.title}
             fill
             className="object-cover"
           />
@@ -47,10 +51,10 @@ export default function SpotCard({ spot, onClick, className }: SpotCardProps) {
         )}
       </div>
       <div className="p-4">
-        <h2 className="font-semibold truncate">{spot.title}</h2>
-        {spot.description && (
+        <h2 className="font-semibold truncate">{place.title}</h2>
+        {place.description && (
           <p className="text-sm text-gray-600 line-clamp-2">
-            {spot.description}
+            {place.description}
           </p>
         )}
       </div>

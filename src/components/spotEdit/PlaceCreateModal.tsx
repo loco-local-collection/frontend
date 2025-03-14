@@ -2,24 +2,24 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { X, Search } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 
-interface SpotCreateModalProps {
+interface PlaceCreateModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onCreate?: (spotData: SpotData) => void;
+  onCreate?: (placeData: PlaceData) => void;
 }
 
-interface SpotData {
+interface PlaceData {
   title: string;
   description: string;
   tags: string;
 }
 
-export default function SpotCreateModal({
+export default function PlaceCreateModal({
   isOpen,
   onClose,
   onCreate,
-}: SpotCreateModalProps) {
-  const [formData, setFormData] = useState<SpotData>({
+}: PlaceCreateModalProps) {
+  const [formData, setFormData] = useState<PlaceData>({
     title: "",
     description: "",
     tags: "",

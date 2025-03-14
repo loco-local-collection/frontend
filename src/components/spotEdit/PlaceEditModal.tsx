@@ -1,13 +1,13 @@
-import type { Spot } from "@/types/map";
+import type { Place } from "@/types/spot";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { X, Search } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 
-interface SpotEditModalProps {
+interface PlaceEditModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onEdit?: (spotData: Spot) => void;
-  spot: Spot;
+  onEdit?: (placeData: Place) => void;
+  place: Place;
 }
 
 interface FormData {
@@ -16,28 +16,28 @@ interface FormData {
   tags: string;
 }
 
-export default function SpotEditModal({
+export default function PlaceEditModal({
   isOpen,
   onClose,
   onEdit,
-  spot,
-}: SpotEditModalProps) {
+  place,
+}: PlaceEditModalProps) {
   const [formData, setFormData] = useState<FormData>({
     title: "",
     description: "",
     tags: "",
   });
 
-  // Initialize form with spot data when modal opens or spot changes
+  // Initialize form with place data when modal opens or place changes
   useEffect(() => {
-    if (isOpen && spot) {
+    if (isOpen && place) {
       setFormData({
-        title: spot.title,
-        description: spot.description || "",
-        tags: "", // Spot doesn't have tags, so initialize as empty
+        title: place.title,
+        description: place.description || "",
+        tags: "", // Place doesn't have tags, so initialize as empty
       });
     }
-  }, [isOpen, spot]);
+  }, [isOpen, place]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -48,14 +48,14 @@ export default function SpotEditModal({
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    // Create updated spot object, preserving fields not in the form
-    const updatedSpot: Spot = {
-      ...spot,
+    // Create updated place object, preserving fields not in the form
+    const updatedPlace: Place = {
+      ...place,
       title: formData.title,
       description: formData.description,
     };
 
-    onEdit?.(updatedSpot);
+    onEdit?.(updatedPlace);
   };
 
   if (!isOpen) return null;

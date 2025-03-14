@@ -1,4 +1,4 @@
-export interface Spot {
+export interface Place {
   id: number;
   title: string;
   description?: string;

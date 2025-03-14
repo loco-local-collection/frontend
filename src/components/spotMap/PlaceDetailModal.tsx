@@ -1,12 +1,12 @@
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, KeyboardEvent } from "react";
 import { MapPin, X } from "lucide-react";
 
 import { IconButton } from "@/components/atoms/IconButton";
-import { useSidebarStore, useSpotStore } from "@/store/mapStore";
+import { useSidebarStore, useMapStore } from "@/store/mapStore";
 import { cn } from "@/lib/utils";
 
-interface SpotDetailProps {
+interface PlaceDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
@@ -14,8 +14,11 @@ interface SpotDetailProps {
 /**
  * 장소를 선택할시 나타나는 모달창
  */
-export default function SpotDetail({ isOpen, onClose }: SpotDetailProps) {
-  const activeSpotId = useSpotStore((state) => state.activeSpotId);
+export default function PlaceDetailModal({
+  isOpen,
+  onClose,
+}: PlaceDetailModalProps) {
+  const activePlaceId = useMapStore((state) => state.activePlaceId);
   const { isSidebarOpen } = useSidebarStore();
 
   // 모바일 화면에서는 스크롤 잠금
@@ -53,7 +56,7 @@ export default function SpotDetail({ isOpen, onClose }: SpotDetailProps) {
   ];
 
   // Enter 시 댓글 전송
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !e.nativeEvent.isComposing) {
       const commentValue = e.currentTarget.value.trim();
       if (!commentValue) return;
@@ -97,7 +100,7 @@ export default function SpotDetail({ isOpen, onClose }: SpotDetailProps) {
         {/* 상단 헤더 */}
         <div className="mb-2">
           <h2 className="text-xl font-bold text-gray-800">
-            아이스걸크림보이 율리단길점 {activeSpotId}
+            아이스걸크림보이 율리단길점 {activePlaceId}
           </h2>
           <div className="flex items-center mt-1 gap-1 text-gray-500">
             <MapPin size={16} />

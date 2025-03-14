@@ -1,23 +1,23 @@
 "use client";
 
 import type { ReactNode } from "react";
-import type { Spot } from "@/types/map";
+import type { Place } from "@/types/spot";
 
 import { useMemo } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { useMapTagSelection } from "@/hooks/maps/useMapTagSelection";
 import { useMapSortOption } from "@/hooks/maps/useMapSortOption";
-import { useSidebarStore, useSpotStore } from "@/store/mapStore";
+import { useSidebarStore, useMapStore } from "@/store/mapStore";
 
-import SpotCard from "@/components/molecules/SpotCard";
+import PlaceCard from "@/components/molecules/PlaceCard";
 import { Button } from "@/components/atoms/Button";
 import { Dropdown } from "@/components/atoms/Dropdown";
 import { Chip } from "@/components/atoms/Chip";
 import { cn } from "@/lib/utils";
 
 interface SidebarProps {
-  spots: Spot[];
+  places: Place[];
   children?: ReactNode;
 }
 
@@ -25,15 +25,15 @@ interface SidebarProps {
  * 장소 리스트를 보여주는 사이드바 컴포넌트
  * 태그, 정렬을 통한 데이터 변경
  */
-export default function MapSidebar({ spots, ...props }: SidebarProps) {
+export default function MapSidebar({ places, ...props }: SidebarProps) {
   const { selectedTags, availableTags, toggleTag } = useMapTagSelection();
   const { selectedSort, setSelectedSort, sortOptions } = useMapSortOption();
   const { isSidebarOpen, toggleSidebar } = useSidebarStore();
-  const setCenter = useSpotStore((state) => state.setCenter);
-  const setActiveSpotId = useSpotStore((state) => state.setActiveSpotId);
+  const setCenter = useMapStore((state) => state.setCenter);
+  const setActivePlaceId = useMapStore((state) => state.setActivePlaceId);
 
-  const sortedSpots = useMemo(() => {
-    return [...spots].sort((a, b) => {
+  const sortedPlaces = useMemo(() => {
+    return [...places].sort((a, b) => {
       if (selectedSort === "latest") {
         return (
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -41,7 +41,7 @@ export default function MapSidebar({ spots, ...props }: SidebarProps) {
       }
       return (b.likes || 0) - (a.likes || 0);
     });
-  }, [spots, selectedSort]);
+  }, [places, selectedSort]);
 
   return (
     <>
@@ -87,15 +87,15 @@ export default function MapSidebar({ spots, ...props }: SidebarProps) {
               />
             </div>
 
-            {/* Spots 리스트 */}
+            {/* Place 리스트 */}
             <div className="space-y-4">
-              {sortedSpots.map((spot, index) => (
-                <SpotCard
+              {sortedPlaces.map((place, index) => (
+                <PlaceCard
                   key={index}
-                  spot={spot}
+                  place={place}
                   onClick={() => {
-                    setCenter({ lat: spot.lat, lng: spot.lng });
-                    setActiveSpotId(spot.id);
+                    setCenter({ lat: place.lat, lng: place.lng });
+                    setActivePlaceId(place.id);
                   }}
                 />
               ))}
