@@ -25,8 +25,7 @@ export default function MapContainer({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isMobile = useMediaQuery(BREAKPOINTS.mobile);
 
-  const center = useMapStore((state) => state.center);
-  const { activePlaceId } = useMapStore();
+  const { center, activePlaceId, setActivePlaceId } = useMapStore();
 
   // 마운트 시 지도 인스턴스 생성
   useEffect(() => {
@@ -83,7 +82,10 @@ export default function MapContainer({
     <div ref={mapRef} className={`grow rounded-lg shadow-md h-screen`}>
       <PlaceDetailModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => {
+          setIsModalOpen(false);
+          setActivePlaceId(null);
+        }}
       />
       {map && <Makers places={places} map={map} />}
     </div>
