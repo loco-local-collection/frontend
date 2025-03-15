@@ -3,6 +3,8 @@
 import { Room } from "@/domains/room/room.entity";
 import clsx from "clsx";
 import Image from "next/image";
+import { Input } from "../atoms/Input";
+import { Search } from "lucide-react";
 
 interface Props {
   className?: string;
@@ -28,9 +30,18 @@ export default function CardList(props: Props) {
 
   return (
     <div className={clsx("p-4", props.className)}>
-      {/* 정렬 옵션 */}
       <div className="flex justify-end mb-4">
-        <select className="border rounded px-3 py-1 text-sm">
+        {/* Search Bar (데스크톱용) */}
+        <div>
+          <Input
+            rightIcon={
+              <Search className="icon-interactive-secondary text-xl" />
+            }
+            placeholder="검색어 입력"
+            className="rounded-full"
+          />
+        </div>
+        <select className="border rounded px-3 py-1 text-sm ml-2">
           <option>최신순</option>
           <option>인기순</option>
         </select>
