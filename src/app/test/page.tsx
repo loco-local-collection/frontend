@@ -1,7 +1,7 @@
 "use client";
 
-import { MswWrapper } from "@/components/msw-wrapper/MswWrapper";
-import { TestButton } from "@/components/msw-wrapper/TestButton";
+import { MswWrapper } from "@/components/mswWrapper/MswWrapper";
+import { TestButton } from "@/components/mswWrapper/TestButton";
 
 export default function TestPage() {
   return (
