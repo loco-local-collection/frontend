@@ -18,13 +18,18 @@
   "dependencies": {
     "@tanstack/query-core": "^5.68.0",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.13",
+    "dotenv": "^16.4.7",
     "feather-icons": "^4.29.2",
+    "json-date-parser": "^1.0.1",
     "lucide-react": "^0.476.0",
     "next": "14.2.24",
+    "qs": "^6.14.0",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.5.0",
     "tailwind-merge": "^3.0.1",
+    "vite-tsconfig-paths": "^5.1.4",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
@@ -37,6 +42,7 @@
     "@testing-library/react": "^16.2.0",
     "@types/navermaps": "^3.7.9",
     "@types/node": "^20",
+    "@types/qs": "^6.9.18",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",

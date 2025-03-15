@@ -1,4 +1,4 @@
-export interface Room {
+export interface Spot {
   id: string; // PK
   label: string; // erd에는 없는데 추가해야할 듯
   title: string;
@@ -8,6 +8,6 @@ export interface Room {
   thumbnail: string; // erd에는 없는데 추가해야 할 듯
   createAt: Date;
   updateAt: Date;
-  userId: string; // FK
+  authorId: string; // FK
   tags?: string[]; // 태그도 추가
 }

@@ -1,3 +1,3 @@
-import { contentHandlers } from "./contentHandler";
+import { spotHandlers } from "./spotHandler";
 
-export const mswHandler = [...contentHandlers];
+export const mswHandler = [...spotHandlers];

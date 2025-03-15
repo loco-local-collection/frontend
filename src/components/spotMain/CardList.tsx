@@ -1,6 +1,6 @@
 "use client";
 
-import { Room } from "@/domains/room/room.entity";
+import { Room } from "@/domains/spot/spot.entity";
 import clsx from "clsx";
 import Image from "next/image";
 import { Input } from "../atoms/Input";
