@@ -1,8 +1,8 @@
 import { list } from "radashi";
-import { gen } from "../generator";
+import { gen } from "../generator/gen";
 import { faker } from "@faker-js/faker";
-import { objectToString } from "../libs/object-to-string";
-import { userFixtures } from "../fixtures/user-fixture";
+import { objectToString } from "../libs/objectToString";
+import { userFixtures } from "../fixtures/userFixture";
 
 const main = (len: number) => {
   const instance = list(0, len - 1).map((i) => {

@@ -1,6 +1,6 @@
 import { list } from "radashi";
-import { gen } from "../generator";
-import { objectToString } from "../libs/object-to-string";
+import { gen } from "../generator/gen";
+import { objectToString } from "../libs/objectToString";
 
 const main = (len: number) => {
   const instance = list(0, len - 1).map(() => gen.user.instance());
