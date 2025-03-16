@@ -1,7 +1,8 @@
-import Image from "next/image";
 import { useEffect, KeyboardEvent } from "react";
+import Image from "next/image";
 import { MapPin, X } from "lucide-react";
 
+import ImageGallerySection from "@/components/spotMap/ImageGallerySection";
 import { IconButton } from "@/components/atoms/IconButton";
 import { useSidebarStore, useMapStore } from "@/store/spotMapStore";
 import { cn } from "@/lib/utils";
@@ -55,6 +56,14 @@ export default function PlaceDetailModal({
     },
   ];
 
+  // 가게 이미지 샘플
+  const placeImages = [
+    { src: "/cafe1.png", alt: "아이스걸크림보이 매장 전경" },
+    { src: "/cafe2.png", alt: "바닐라 아이스크림" },
+    { src: "/exhibit1.png", alt: "딸기 아이스크림" },
+    { src: "/exhibit2.png", alt: "매장 내부" },
+  ];
+
   // Enter 시 댓글 전송
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !e.nativeEvent.isComposing) {
@@ -83,18 +92,11 @@ export default function PlaceDetailModal({
         icon={<X />}
         variant="secondary"
         aria-label="닫기"
-        className="absolute right-4 top-4 bg-transparent z-20"
+        className="absolute right-4 top-4 bg-transparent z-20 text-white"
       />
 
-      {/* 메인 이미지 */}
-      <div className="relative w-full h-48 bg-gray-200 sm:rounded-t-lg overflow-hidden">
-        <Image
-          src="/logo.svg"
-          alt="아이스걸크림보이 율리단길점"
-          fill
-          className="object-cover"
-        />
-      </div>
+      {/* 이미지 갤러리 섹션 */}
+      <ImageGallerySection images={placeImages} />
 
       <div className="p-5">
         {/* 상단 헤더 */}
