@@ -7,7 +7,7 @@ interface AvatarProps {
   size?: "sm" | "md" | "lg";
 }
 
-const Avatar = ({ src, alt, size = "md" }: AvatarProps) => {
+export const Avatar = ({ src, alt, size = "md" }: AvatarProps) => {
   const sizeMap = {
     sm: 24,
     md: 32,
@@ -39,5 +39,3 @@ const Avatar = ({ src, alt, size = "md" }: AvatarProps) => {
     </div>
   );
 };
-
-export default Avatar;

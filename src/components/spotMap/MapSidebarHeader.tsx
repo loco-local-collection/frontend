@@ -2,7 +2,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { ChevronLeft, Heart, Share } from "lucide-react";
 
-import Avatar from "@/components/atoms/Avatar";
+import { Avatar } from "@/components/atoms/Avatar";
 import { Button } from "@/components/atoms/Button";
 import { IconButton } from "@/components/atoms/IconButton";
 

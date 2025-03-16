@@ -75,7 +75,7 @@ export default function PlaceDetailModal({
         "fixed transform transition-all duration-300 bg-primary shadow-lg overflow-y-auto",
         "sm:w-[380px] sm:top-1/2 sm:-translate-y-1/2 sm:rounded-xl sm:h-[95vh]",
         "w-full h-full top-0 left-0 z-50",
-        isSidebarOpen ? "sm:left-[350px]" : "sm:left-[30px]",
+        isSidebarOpen ? "sm:left-[414px]" : "sm:left-[30px]",
       )}
     >
       <IconButton

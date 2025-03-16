@@ -2,7 +2,12 @@
 
 import type { Place } from "@/types/spot";
 import Image from "next/image";
+import { ThumbsUp, MessageSquare, MoreHorizontal } from "lucide-react";
+
 import { cn } from "@/lib/utils";
+import { Avatar } from "@/components/atoms/Avatar";
+import { Button } from "@/components/atoms/Button";
+import { IconButton } from "@/components/atoms/IconButton";
 
 interface PlaceCardProps {
   place: Place;
@@ -18,12 +23,36 @@ export default function PlaceCard({
   return (
     <div
       className={cn(
-        `cursor-pointer rounded-lg border hover:shadow-lg overflow-hidden`,
+        `rounded-lg border hover:shadow-lg overflow-hidden`,
         className,
       )}
-      onClick={onClick}
     >
-      <div className="relative w-full h-32 bg-gray-200">
+      {/* 아바타 및 사용자명 헤더 */}
+      <div className="flex items-center justify-between px-4 py-2">
+        <div className="flex items-center gap-2">
+          <Avatar
+            src={place.author?.profileImage || ""}
+            alt={place.author?.name || "User"}
+            size="md"
+          />
+          <span className="font-medium">
+            {place.author?.name || "이름박귀찮"}
+          </span>
+        </div>
+        <IconButton
+          icon={<MoreHorizontal size={20} />}
+          variant="outline"
+          size="sm"
+          aria-label="More options"
+          className="border-none"
+        />
+      </div>
+
+      {/* 메인 이미지 */}
+      <div
+        className="relative w-full h-60 bg-gray-200 cursor-pointer"
+        onClick={onClick}
+      >
         {place.imageUrl ? (
           <Image
             src={place.imageUrl}
@@ -50,13 +79,45 @@ export default function PlaceCard({
           </div>
         )}
       </div>
-      <div className="p-4">
-        <h2 className="font-semibold truncate">{place.title}</h2>
+
+      {/* 태그 */}
+      <div className="flex gap-2 p-4 pt-3">
+        {place.tags?.map((tag, index) => (
+          <span
+            key={index}
+            className="px-3 py-1 text-sm bg-gray-100 rounded-full text-gray-700"
+          >
+            #{tag}
+          </span>
+        ))}
+      </div>
+
+      {/* 컨텐츠 */}
+      <div className="px-4 pb-2">
+        <h2 className="text-xl font-bold">{place.title}</h2>
         {place.description && (
-          <p className="text-sm text-gray-600 line-clamp-2">
+          <p className="mt-2 text-sm text-gray-700 line-clamp-2">
             {place.description}
           </p>
         )}
+      </div>
+
+      {/* 좋아요 및 댓글 */}
+      <div className="flex border-t">
+        <Button
+          variant="outline"
+          leftIcon={<ThumbsUp size={18} />}
+          className="grow text-gray-500 border-0 hover:bg-gray-100"
+        >
+          좋아요 {place.likes || 5}
+        </Button>
+        <Button
+          variant="outline"
+          leftIcon={<MessageSquare size={18} />}
+          className="grow text-gray-500 border-0 hover:bg-gray-100"
+        >
+          댓글 {place.comments || 13}
+        </Button>
       </div>
     </div>
   );
