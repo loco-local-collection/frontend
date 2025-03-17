@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -23,10 +23,10 @@
     "feather-icons": "^4.29.2",
     "json-date-parser": "^1.0.1",
     "lucide-react": "^0.476.0",
-    "next": "14.2.24",
+    "next": "15.2.2",
     "qs": "^6.14.0",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
     "react-icons": "^5.5.0",
     "tailwind-merge": "^3.0.1",
     "vite-tsconfig-paths": "^5.1.4",
@@ -43,10 +43,10 @@
     "@types/navermaps": "^3.7.9",
     "@types/node": "^20",
     "@types/qs": "^6.9.18",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "19.0.10",
+    "@types/react-dom": "19.0.4",
     "eslint": "^8",
-    "eslint-config-next": "14.2.24",
+    "eslint-config-next": "15.2.2",
     "husky": "^9.1.7",
     "lint-staged": "^15.4.3",
     "msw": "^2.7.0",
@@ -64,5 +64,9 @@
     "workerDirectory": [
       "public"
     ]
+  },
+  "overrides": {
+    "@types/react": "19.0.10",
+    "@types/react-dom": "19.0.4"
   }
 }

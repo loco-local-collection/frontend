@@ -18,7 +18,14 @@ export const usePages = () => {
     })();
   }, []);
 
-  const onSubmit = () => {};
+  const onSubmit = async (search: string) => {
+    const count = await loadCount(search);
+
+    const pageMax = Math.ceil(count / pageTake);
+    const pagesNext = pageMax === 0 ? [] : list(pageStart, pageMax);
+
+    setPages(pagesNext);
+  };
 
   return {
     pages,

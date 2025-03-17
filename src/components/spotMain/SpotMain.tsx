@@ -6,6 +6,8 @@ import { Input } from "../atoms/Input";
 import { SpotItem } from "./SpotItem";
 import { Spot } from "@/domains/spot/spot.entity";
 import { spotFixtures } from "../../../__tests__/fixtures/spotFixture";
+import { usePages } from "./hooks/usePages";
+import { useInput } from "@/hooks/form/useInput";
 
 interface Props {
   className?: string;
@@ -13,10 +15,16 @@ interface Props {
 
 export const SpotMain = (props: Props) => {
   const spots: Spot[] = spotFixtures;
-  const pages = [1, 2, 3, 4, 5];
+  const { value: search, onChange: onChangeSearch } = useInput("");
+  const { pages, onSubmit: onSubmitPage } = usePages();
+
+  const onSubmit = async () => {
+    onSubmitPage(search);
+  };
+
   return (
     <div className={clsx("mt-4", props.className)}>
-      <div className="flex justify-end mb-4">
+      <form className="flex justify-end mb-4" onSubmit={onSubmit}>
         <div className="flex items-center">
           <Input
             rightIcon={
@@ -24,6 +32,8 @@ export const SpotMain = (props: Props) => {
             }
             placeholder="검색어 입력"
             className="rounded-full"
+            onChange={onChangeSearch}
+            value={search}
           />
         </div>
         <select
@@ -34,7 +44,7 @@ export const SpotMain = (props: Props) => {
           <option value="created-at-desc">최신순</option>
           <option value="title-asc">제목순</option>
         </select>
-      </div>
+      </form>
       {/* 반응형 카드 리스트 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {spots.map((spot) => SpotItem({ spot }))}
