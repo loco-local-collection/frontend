@@ -1,6 +1,6 @@
 import { test, describe, expect } from "vitest";
 import { spotFixtures } from "../../../__tests__/fixtures/spotFixture";
-import { spotApi } from "./spotApi";
+import { spotApi } from "./spotApi.effect";
 import { omit } from "radashi";
 import { userFixtures } from "../../../__tests__/fixtures/userFixture";
 import { SpotView } from "@/domains/spot/spot.type";

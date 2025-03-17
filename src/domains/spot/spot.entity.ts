@@ -9,5 +9,5 @@ export interface Spot {
   createAt: Date;
   updateAt: Date;
   authorId: string; // FK
-  tags?: string[]; // 태그도 추가
+  tags: string[]; // 태그도 추가
 }
