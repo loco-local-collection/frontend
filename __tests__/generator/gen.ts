@@ -1,5 +1,5 @@
 import { Place } from "@/domains/place/place.entity";
-import { Room } from "@/domains/room/room.entity";
+import { Spot } from "@/domains/spot/spot.entity";
 import { User } from "@/domains/user/user.entity";
 import { faker } from "@faker-js/faker";
 import { draw } from "radashi";
@@ -27,14 +27,14 @@ export const gen = {
       imgUrl: gen.img(),
       createAt: faker.date.past(),
       updateAt: faker.date.past(),
-      userId: faker.string.uuid(),
-      roomId: faker.string.uuid(),
+      authorId: faker.string.uuid(),
+      spotId: faker.string.uuid(),
       ...partial,
     }),
   },
 
-  room: {
-    instance: (partial?: Partial<Room>): Room => ({
+  spot: {
+    instance: (partial?: Partial<Spot>): Spot => ({
       id: faker.string.uuid(),
       label: faker.book.title(),
       title: faker.book.title(),
@@ -44,7 +44,7 @@ export const gen = {
       thumbnail: gen.img(),
       createAt: faker.date.past(),
       updateAt: faker.date.past(),
-      userId: faker.string.uuid(),
+      authorId: faker.string.uuid(),
       ...partial,
     }),
   },

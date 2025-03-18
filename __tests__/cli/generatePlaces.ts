@@ -8,14 +8,14 @@ const main = (len: number) => {
   const instance = list(0, len - 1).map((i) => {
     const user = userFixtures[0];
     if (i === 1)
-      return gen.place.instance({ userId: user.id, createAt: new Date() });
+      return gen.place.instance({ authorId: user.id, createAt: new Date() });
     if (i === 2)
       return gen.place.instance({
-        userId: user.id,
+        authorId: user.id,
         title: "000000" + faker.string.sample(),
       });
 
-    return gen.place.instance({ userId: user.id });
+    return gen.place.instance({ authorId: user.id });
   });
   const str = objectToString(instance);
   console.log(str);

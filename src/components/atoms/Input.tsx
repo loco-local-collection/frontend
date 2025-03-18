@@ -1,3 +1,4 @@
+"use client";
 import React, { forwardRef } from "react";
 import clsx from "clsx";
 import { InputProps } from "@/types/Input.types";
@@ -17,7 +18,7 @@ const getInputClassName = ({
       ? "border-red-500 focus:ring-red-300"
       : "border-gray-300 focus:ring-blue-400",
     isDisabled && "opacity-50 cursor-not-allowed",
-    isReadOnly && "bg-gray-100"
+    isReadOnly && "bg-gray-100",
   );
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -32,7 +33,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     return (
       <div className="flex flex-col gap-1">
@@ -59,7 +60,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 isDisabled,
                 isReadOnly,
               }),
-              className
+              className,
             )}
             {...props}
           />
@@ -74,7 +75,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {errorMessage && <p className="text-sm text-red-500">{errorMessage}</p>}
       </div>
     );
-  }
+  },
 );
 
 Input.displayName = "Input";

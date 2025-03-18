@@ -8,7 +8,7 @@ export interface Place {
   imgUrl: string; // 추가
   createAt: Date;
   updateAt: Date;
-  userId: string; // FK, addedBy임
-  roomId: string; // FK
+  authorId: string; // FK, addedBy임
+  spotId: string; // FK
   // locationId: string; // FK, 프론트엔드에서 lat, lng으로 대체
 }

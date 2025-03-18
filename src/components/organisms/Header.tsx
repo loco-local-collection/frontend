@@ -3,10 +3,9 @@
 import Image from "next/image";
 import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi"; // 아이콘 추가
-import { HiSearch } from "react-icons/hi";
-import { Input } from "../atoms/Input";
 import { IconButton } from "../atoms/IconButton";
 import clsx from "clsx";
+import Link from "next/link";
 
 interface Props {
   className?: string;
@@ -22,44 +21,26 @@ export default function Header(props: Props) {
         <div className="flex items-center space-x-8">
           {/* Logo */}
           <div>
-            <Image width={64} height={32} src={"/logo.svg"} alt={"home"} />
+            <Image width={64} height={32} src={"/Loco.svg"} alt={"home"} />
           </div>
 
           {/* 데스크톱용 네비게이션 (md 이상에서 표시) */}
           <nav className="hidden md:flex space-x-4 text-secondary">
-            <a href="#">대외활동</a>
-            <a href="#">공모전</a>
-            <a href="#">국비교육</a>
-            <a href="#">매거진</a>
+            <Link href="#">스팟</Link>
+            <Link href="#">즐겨찾기</Link>
+            <Link href="#">프로필</Link>
           </nav>
         </div>
 
         {/* Right Section */}
         <div className="flex items-center space-x-4">
-          {/* Search Bar (데스크톱용) */}
-          <div className="hidden md:block">
-            <Input
-              rightIcon={
-                <HiSearch className="icon-interactive-secondary text-xl" />
-              }
-              placeholder="검색어 입력"
-              className="rounded-full"
-            />
-          </div>
-
           {/* 공고등록 & 로그인 (데스크톱용) */}
           <div className="hidden md:flex space-x-4 text-gray-700">
-            <a href="#">공고등록</a>
+            <a href="#">스팟생성</a>
             <a href="#">로그인</a>
           </div>
 
           {/* 모바일 햄버거 버튼 (md 이하에서만 표시) */}
-          <IconButton
-            variant="outline"
-            icon={<HiSearch />}
-            aria-label="검색"
-            className="icon-interactive-secondary md:hidden border-none text-2xl"
-          ></IconButton>
 
           <IconButton
             variant="outline"

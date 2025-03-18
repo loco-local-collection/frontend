@@ -1,13 +1,13 @@
-import CardList from "@/components/spotMain/CardList";
 import CategoryFilter from "@/components/spotMain/CategoryFilter";
 import Header from "@/components/organisms/Header";
+import { SpotMain } from "@/components/spotMain/SpotMain";
 
-export default function HomePage() {
+export default async function HomePage() {
   return (
     <div>
       <Header />
       <CategoryFilter />
-      <CardList />
+      <SpotMain />
     </div>
   );
 }
