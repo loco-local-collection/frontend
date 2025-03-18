@@ -1,9 +1,13 @@
-import { useEffect, KeyboardEvent } from "react";
-import Image from "next/image";
-import { MapPin, X } from "lucide-react";
+import { useEffect } from "react";
+import { MapPin, X, ThumbsUp, Share, Star } from "lucide-react";
 
-import ImageGallerySection from "@/components/spotMap/ImageGallerySection";
+import ImageGallerySection from "./ImageGallerySection";
+import CommentSection from "./CommentSection";
+
 import { IconButton } from "@/components/atoms/IconButton";
+import { Button } from "@/components/atoms/Button";
+import { Avatar } from "@/components/atoms/Avatar";
+
 import { useSidebarStore, useMapStore } from "@/store/spotMapStore";
 import { cn } from "@/lib/utils";
 
@@ -41,21 +45,6 @@ export default function PlaceDetailModal({
     };
   }, [isOpen]);
 
-  const comments = [
-    {
-      id: 1,
-      userName: "아이스맛구실장",
-      text: "여기 아이스크림 맛있어요!",
-      userAvatar: "/logo.svg",
-    },
-    {
-      id: 2,
-      userName: "우아의맛집",
-      text: "오레오 맛 추천! 사진도 예쁘게 잘 나와요",
-      userAvatar: "/logo.svg",
-    },
-  ];
-
   // 가게 이미지 샘플
   const placeImages = [
     { src: "/cafe1.png", alt: "아이스걸크림보이 매장 전경" },
@@ -64,17 +53,8 @@ export default function PlaceDetailModal({
     { src: "/exhibit2.png", alt: "매장 내부" },
   ];
 
-  // Enter 시 댓글 전송
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-      const commentValue = e.currentTarget.value.trim();
-      if (!commentValue) return;
-
-      console.log("새 댓글 전송:", commentValue);
-
-      e.currentTarget.value = "";
-    }
-  };
+  // 가게 태그
+  const placeTags = ["아이스크림", "카페", "디저트"];
 
   if (!isOpen) return null;
 
@@ -98,56 +78,82 @@ export default function PlaceDetailModal({
       {/* 이미지 갤러리 섹션 */}
       <ImageGallerySection images={placeImages} />
 
-      <div className="p-5">
+      {/* 태그 */}
+      <div className="flex gap-2 px-4 pt-3">
+        {placeTags.map((tag, index) => (
+          <span
+            key={index}
+            className="px-3 py-1 text-sm bg-gray-100 rounded-full text-gray-700"
+          >
+            #{tag}
+          </span>
+        ))}
+      </div>
+
+      <div className="p-5 pt-3">
         {/* 상단 헤더 */}
         <div className="mb-2">
           <h2 className="text-xl font-bold text-gray-800">
             아이스걸크림보이 율리단길점 {activePlaceId}
           </h2>
-          <div className="flex items-center mt-1 gap-1 text-gray-500">
-            <MapPin size={16} />
-            <p className="text-sm">서울 용산구 한강대로50길 17</p>
+
+          {/* 주소와 복사 버튼 */}
+          <div className="flex items-center gap-2 mt-1">
+            <div className="flex items-center gap-1 text-gray-500">
+              <MapPin size={16} />
+              <p className="text-sm">서울 용산구 한강대로50길 17</p>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-blue-500 py-0 px-2 border-0"
+            >
+              복사
+            </Button>
           </div>
+        </div>
+
+        {/* 작성자 정보 */}
+        <div className="flex items-center gap-2 my-5">
+          <Avatar src="/logo.svg" alt="이불밖귀찮" size="sm" />
+          <span className="text-sm font-medium">이불밖귀찮</span>
         </div>
 
         {/* 소개 */}
-        <div className="text-gray-800 text-sm mb-6">
+        <div className="text-gray-800 text-sm mb-3">
           계절마다 독특한 수제 아이스크림을 맛볼 수 있는 예쁜 가게
         </div>
 
-        {/* 댓글 영역 */}
-        <div>
-          <h3 className="text-sm font-semibold mb-2 text-gray-700">
-            댓글 {comments.length}개
-          </h3>
-          <div className="mb-4">
-            <input
-              placeholder="댓글추가..."
-              onKeyDown={handleKeyDown}
-              className="w-full bg-transparent border-b border-gray-300 focus:outline-none focus:border-focusRing transition-colors"
-            />
-          </div>
-          <div className="space-y-4">
-            {comments.map((comment) => (
-              <div key={comment.id} className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-100">
-                  <Image
-                    src={comment.userAvatar}
-                    alt={comment.userName}
-                    width={32}
-                    height={32}
-                  />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-800">
-                    {comment.userName}
-                  </p>
-                  <p className="text-sm text-gray-600">{comment.text}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* 액션 버튼 */}
+        <div className="flex justify-between my-6 border-t border-b border-gray-200 py-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="text-gray-600 border-0"
+            leftIcon={<ThumbsUp size={16} />}
+          >
+            좋아요 5
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="text-gray-600 border-0"
+            leftIcon={<Star size={16} />}
+          >
+            저장하기
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="text-gray-600 border-0"
+            leftIcon={<Share size={16} />}
+          >
+            공유하기
+          </Button>
         </div>
+
+        {/* 댓글 섹션 */}
+        <CommentSection />
       </div>
     </div>
   );

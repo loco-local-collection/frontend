@@ -15,6 +15,9 @@ interface ImageGalleryProps {
   }[];
 }
 
+/**
+ * PlaceDetailModal 상단의 사진 부분
+ */
 export default function ImageGallerySection({ images }: ImageGalleryProps) {
   const [isCarouselOpen, setIsCarouselOpen] = useState(false);
   const [initialSlide, setInitialSlide] = useState(0);
