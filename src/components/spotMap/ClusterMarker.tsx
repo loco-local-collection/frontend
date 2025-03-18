@@ -4,7 +4,7 @@ interface MarkerProps {
   className?: string;
 }
 
-export default function Marker({ className }: MarkerProps) {
+export default function ClusterMarker({ className }: MarkerProps) {
   return (
     <div
       className={cn(

@@ -2,10 +2,10 @@
 
 import type { Place } from "@/types/spot";
 import { useEffect, useState } from "react";
-import ReactDOMServer, { renderToString } from "react-dom/server";
+import { renderToString } from "react-dom/server";
 
-import Marker from "@/components/spotMap/Marker";
-import { MarkerWindow } from "@/components/spotMap/MarkerWindow";
+import TitleMarker from "@/components/spotMap/TitleMarker";
+import ClusterMarker from "@/components/spotMap/ClusterMarker";
 import { useMapStore } from "@/store/spotMapStore";
 
 // Define interface for the marker with place data
@@ -30,51 +30,35 @@ export default function Makers({ places = [], map }: MakersProps) {
   const [markerClustering, setMarkerClustering] =
     useState<MarkerClustering | null>(null);
   const [markers, setMarkers] = useState<MarkerWithPlaceData[]>([]);
-  const [infoWindows, setInfoWindows] = useState<naver.maps.InfoWindow[]>([]);
 
   const { activePlaceId, setActivePlaceId } = useMapStore();
 
-  // 마커 및 인포윈도우 생성
+  // 마커 생성
   useEffect(() => {
     if (!map || places.length === 0) return;
 
-    // 기존 마커와 인포윈도우 정리
+    // 기존 마커 정리
     markers.forEach((marker) => marker.setMap(null));
-    infoWindows.forEach((infoWindow) => infoWindow.close());
 
     const newMarkers: MarkerWithPlaceData[] = [];
-    const newInfoWindows: naver.maps.InfoWindow[] = [];
 
-    // 마커 및 인포윈도우 생성
+    // 마커 생성
     places.forEach((place) => {
+      // TitleMarker 컴포넌트를 renderToString으로 변환
+      const markerContent = renderToString(<TitleMarker title={place.title} />);
+
       // 마커 생성
       const marker = new naver.maps.Marker({
         position: new naver.maps.LatLng(place.lat, place.lng),
         title: place.title,
         icon: {
-          url: "/default-marker.svg",
-          size: new naver.maps.Size(16, 16),
-          scaledSize: new naver.maps.Size(16, 16),
-          origin: new naver.maps.Point(0, 0),
-          anchor: new naver.maps.Point(8, 16),
+          content: markerContent,
+          anchor: new naver.maps.Point(8, 8),
         },
       }) as MarkerWithPlaceData;
 
       // 마커에 데이터 저장
       marker.placeData = place;
-
-      // 인포윈도우 생성
-      const infoWindowContent = ReactDOMServer.renderToString(
-        <MarkerWindow place={place} />,
-      );
-
-      const infoWindow = new naver.maps.InfoWindow({
-        content: infoWindowContent,
-        borderWidth: 0,
-        disableAnchor: true,
-        backgroundColor: "transparent",
-        pixelOffset: new naver.maps.Point(0, -10),
-      });
 
       // 마커 클릭 이벤트 리스너
       naver.maps.Event.addListener(marker, "click", () => {
@@ -83,11 +67,10 @@ export default function Makers({ places = [], map }: MakersProps) {
       });
 
       newMarkers.push(marker);
-      newInfoWindows.push(infoWindow);
+      marker.setMap(map);
     });
 
     setMarkers(newMarkers);
-    setInfoWindows(newInfoWindows);
 
     // 클러스터링 초기화
     initClustering(newMarkers);
@@ -95,7 +78,6 @@ export default function Makers({ places = [], map }: MakersProps) {
     // 정리 함수
     return () => {
       newMarkers.forEach((marker) => marker.setMap(null));
-      newInfoWindows.forEach((infoWindow) => infoWindow.close());
       if (markerClustering) {
         markerClustering.setMap(null);
       }
@@ -116,7 +98,7 @@ export default function Makers({ places = [], map }: MakersProps) {
       // 클러스터 스타일 정의
       const htmlMarker1 = {
         content: renderToString(
-          <Marker className="w-10 h-10 bg-blue-400 text-sm" />,
+          <ClusterMarker className="w-10 h-10 bg-blue-400 text-sm" />,
         ),
         size: new naver.maps.Size(40, 40),
         anchor: new naver.maps.Point(20, 20),
@@ -124,7 +106,7 @@ export default function Makers({ places = [], map }: MakersProps) {
 
       const htmlMarker2 = {
         content: renderToString(
-          <Marker className="w-12 h-12 bg-blue-600 text-base" />,
+          <ClusterMarker className="w-12 h-12 bg-blue-600 text-base" />,
         ),
         size: new naver.maps.Size(50, 50),
         anchor: new naver.maps.Point(25, 25),
@@ -156,26 +138,6 @@ export default function Makers({ places = [], map }: MakersProps) {
       console.error("Marker clustering failed:", error);
     }
   };
-
-  // activePlaceId 변경에 따라 인포윈도우 열고 닫기
-  useEffect(() => {
-    if (!map || markers.length === 0 || infoWindows.length === 0) return;
-
-    infoWindows.forEach((infoWindow, index) => {
-      const marker = markers[index];
-      const placeId = marker.placeData.id;
-
-      if (activePlaceId === placeId) {
-        if (!infoWindow.getMap()) {
-          infoWindow.open(map, marker);
-        }
-      } else {
-        if (infoWindow.getMap()) {
-          infoWindow.close();
-        }
-      }
-    });
-  }, [activePlaceId, map, markers, infoWindows]);
 
   return null;
 }
